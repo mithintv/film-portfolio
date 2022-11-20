@@ -10,11 +10,11 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.10.14",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
-    "@u-wave/react-vimeo": "^0.9.10",
-    "@u-wave/react-youtube": "^0.7.4",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
     "mongodb": "4.11",
@@ -22,7 +22,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
-    "react-player": "^2.11.0",
     "typescript": "4.9.3"
   }
 }

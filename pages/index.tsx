@@ -1,9 +1,5 @@
 import { useState } from "react";
 
-import Vimeo from "@u-wave/react-vimeo";
-import YouTube from "@u-wave/react-youtube"; // eslint-disable-line import/no-unresolved
-import ReactPlayer from "react-player";
-
 import { css } from "@emotion/react";
 import { BsFillPlayFill } from "react-icons/bs";
 import { IconContext } from "react-icons";
@@ -44,7 +40,7 @@ export default function Home() {
           height: "546px",
         })}
       >
-        {/* {!showPlayer && (
+        {!showPlayer && (
           <div
             css={css({
               width: "75vw",
@@ -74,25 +70,19 @@ export default function Home() {
                 />
               </div>
             </IconContext.Provider>
-            <img
+            {/* <img
               css={css({
                 position: "absolute",
                 zIndex: "2",
               })}
               src="https://firebasestorage.googleapis.com/v0/b/film-portfolio-28f4b.appspot.com/o/Screen%20Shot%202022-11-17%20at%205.17.56%20PM.png?alt=media&token=939fcb8c-aa0d-4ea3-a9c9-438095c3745a"
-              width="1300px"
-              height="546px"
-            />
+              width="1080px"
+              height="454px"
+            /> */}
           </div>
-        )} */}
-        <ReactPlayer
-          url="https://vimeo.com/556691314"
-          autoplay
-          width="1300px"
-          height="546px"
-          controls={false}
-        />
-        {/* <iframe
+        )}
+
+        <iframe
           css={css({
             position: "absolute",
             width: "1300px",
@@ -104,7 +94,7 @@ export default function Home() {
           frameBorder="0"
           allow="autoplay; fullscreen"
           allowFullScreen
-        ></iframe> */}
+        ></iframe>
       </div>
     </section>
   );
