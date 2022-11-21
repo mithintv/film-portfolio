@@ -9,7 +9,7 @@ export default function Nav({ children }: { children: React.ReactNode }) {
         justifyContent: "space-between",
         alignItems: "center",
         margin: "1.5rem auto",
-        width: "1000px",
+        maxWidth: "1000px",
       })}
     >
       {children}

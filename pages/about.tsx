@@ -5,13 +5,22 @@ import { css } from "@emotion/react";
 
 export default function Page() {
   return (
-    <div>
+    <div
+      css={css({
+        justifyContent: "center",
+      })}
+    >
       <Heading title="About" />
-      <Paper elevation={5}>
+      <Paper
+        elevation={5}
+        css={css({
+          margin: "0 1rem",
+        })}
+      >
         <p
           css={css({
             textAlign: "justify",
-            width: "500px",
+            maxWidth: "500px",
             padding: "2rem",
           })}
         >

@@ -18,7 +18,7 @@ import {
   ListItemText,
 } from "@mui/material";
 
-const breakpoints = { mobile: 0, tablet: 768, desktop: 1280 };
+const breakpoints = { mobile: 0, tablet: 768, desktop: 1024 };
 
 export default function DesktopNav({
   children,
