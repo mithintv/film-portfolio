@@ -1,6 +1,10 @@
 import { css } from "@emotion/react";
 
-export default function Heading({ title }: { title: string }) {
+export default function Heading({
+  title,
+}: {
+  title: string | string[] | undefined;
+}) {
   return (
     <h2
       css={css({

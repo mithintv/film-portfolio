@@ -3,6 +3,8 @@ import { useState } from "react";
 
 import Nav from "./Nav";
 import Title from "./Header";
+import Links from "./Links";
+
 import { css } from "@emotion/react";
 import {
   Button,
@@ -46,29 +48,7 @@ export default function MobileNav() {
         />
       </Nav>
       <Drawer anchor={"right"} open={drawer} onClose={toggleDrawer}>
-        <List
-          css={css({
-            margin: "1.5rem 0rem",
-            width: "250px",
-          })}
-        >
-          {nav.map((navLink, index) => {
-            return (
-              <ListItem key={navLink} disablePadding>
-                <ListItemButton
-                  css={css({
-                    margin: "0.5rem 0",
-                    justifyContent: "center",
-                  })}
-                >
-                  <Link key={index} href={`/${navLink.replace(" ", "")}`}>
-                    {navLink}
-                  </Link>
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List>
+        <Links />
       </Drawer>
     </>
   );

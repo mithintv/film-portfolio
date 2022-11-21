@@ -8,7 +8,8 @@ export default function Nav({ children }: { children: React.ReactNode }) {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        margin: "1.5rem 0",
+        margin: "1.5rem auto",
+        width: "1000px",
       })}
     >
       {children}

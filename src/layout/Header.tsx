@@ -10,7 +10,7 @@ export default function Title() {
       <h1
         css={css({
           color: "black",
-          margin: "1rem 1.5rem 0.25rem",
+          margin: "0rem 1.5rem 0.15rem",
           fontSize: "2rem",
         })}
       >
@@ -19,7 +19,7 @@ export default function Title() {
       <h3
         css={css({
           fontSize: "0.85rem",
-          margin: "0.25rem 1.5rem",
+          margin: "0.15rem 1.5rem",
         })}
       >
         Director & Cinematographer
