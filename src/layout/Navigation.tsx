@@ -1,9 +1,17 @@
 import Link from "next/link";
+import { useState } from "react";
+
+import useBreakpoint from "use-breakpoint";
 
 import { css } from "@emotion/react";
-import Title from "./Title";
+import Nav from "./Nav";
+import Title from "./Header";
 
-export default function Navigation({
+import MobileNav from "./MobileNav";
+
+const breakpoints = { mobile: 0, tablet: 768, desktop: 1280 };
+
+export default function DesktopNav({
   children,
   navLinks = [
     "Narrative",
@@ -26,42 +34,38 @@ export default function Navigation({
     "contact",
   ];
 
+  const { breakpoint } = useBreakpoint(breakpoints, "mobile", false);
+
   return (
     <>
-      <nav
-        css={css({
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          margin: "1.5rem 5rem",
-          maxWidth: "1400px",
-        })}
-      >
-        <Title />
-        <ul
-          css={css({
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          })}
-        >
-          {nav.map((navLink, index) => {
-            return (
-              <Link
-                css={css({
-                  listStyle: "none",
-                  margin: "0 1.5em",
-                })}
-                key={index}
-                href={`/${navLink.replace(" ", "")}`}
-              >
-                {navLink}
-              </Link>
-            );
-          })}
-        </ul>
-      </nav>
+      {breakpoint === "desktop" && (
+        <Nav>
+          <Title />
+          <ul
+            css={css({
+              display: "flex",
+              flexDirection: "row",
+            })}
+          >
+            {nav.map((navLink, index) => {
+              return (
+                <Link
+                  css={css({
+                    listStyle: "none",
+                    margin: "0 1.5em",
+                  })}
+                  key={index}
+                  href={`/${navLink.replace(" ", "")}`}
+                >
+                  {navLink}
+                </Link>
+              );
+            })}
+          </ul>
+        </Nav>
+      )}
+
+      {breakpoint !== "desktop" && <MobileNav />}
       <main
         css={css({
           display: "flex",
