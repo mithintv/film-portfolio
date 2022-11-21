@@ -1,8 +1,11 @@
 /// <reference types="@emotion/react/types/css-prop" />
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import dynamic from "next/dynamic";
 
-import Navigation from "../src/layout/Navigation";
+const Navigation = dynamic(() => import("../src/layout/Navigation"), {
+  ssr: false,
+});
 import { GetStaticProps } from "next";
 
 export default function App(
