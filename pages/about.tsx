@@ -3,7 +3,7 @@ import Heading from "../src/layout/Heading";
 import { Paper } from "@mui/material";
 import { css } from "@emotion/react";
 
-export default function Page() {
+export default function About() {
   return (
     <div
       css={css({
