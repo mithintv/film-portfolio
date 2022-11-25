@@ -9,7 +9,6 @@ export default function Title() {
     >
       <h1
         css={css({
-          color: "black",
           margin: "0rem 1.5rem 0.15rem",
           fontSize: "2rem",
         })}

@@ -9,7 +9,7 @@ export default function Heading({
     <h2
       css={css({
         textAlign: "center",
-        margin: "1.5rem 0",
+        margin: "3rem 0 0",
       })}
     >
       {title}

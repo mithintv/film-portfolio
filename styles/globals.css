@@ -1,16 +1,34 @@
+html {
+  overflow-y: scroll;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  background-color: #83a3a9;
+  color: #d7f0f5;
 }
 
 a {
-  color: inherit;
+  color: #d7f0f5;
   text-decoration: none;
+}
+
+p {
+  color: #d7f0f5;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.MuiFormLabel-root {
+  color: #d7f0f5;
+}
+
+.MuiDrawer-paper {
+  background-color: #83a3a9;
 }

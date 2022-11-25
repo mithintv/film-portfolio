@@ -25,7 +25,13 @@ export default function Contact() {
             margin: "2rem 0",
           })}
         >
-          <FormLabel>Who are you?</FormLabel>
+          <FormLabel
+            css={css({
+              color: "#d7f0f5",
+            })}
+          >
+            Who are you?
+          </FormLabel>
           <TextField
             css={css({
               margin: "0.5rem 0",
