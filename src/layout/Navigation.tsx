@@ -2,14 +2,23 @@ import Link from "next/link";
 import { useState } from "react";
 
 import useBreakpoint from "use-breakpoint";
-
-import { css } from "@emotion/react";
 import Nav from "./Nav";
 import Title from "./Header";
-
 import MobileNav from "./MobileNav";
+import Links from "./Links";
 
-const breakpoints = { mobile: 0, tablet: 768, desktop: 1280 };
+import { css } from "@emotion/react";
+import {
+  Button,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+
+const breakpoints = { mobile: 0, tablet: 768, desktop: 1024 };
 
 export default function DesktopNav({
   children,
@@ -41,27 +50,16 @@ export default function DesktopNav({
       {breakpoint === "desktop" && (
         <Nav>
           <Title />
-          <ul
+          <List
             css={css({
               display: "flex",
               flexDirection: "row",
+              justifyContent: "space-evenly",
+              margin: "1.5rem 0rem",
             })}
           >
-            {nav.map((navLink, index) => {
-              return (
-                <Link
-                  css={css({
-                    listStyle: "none",
-                    margin: "0 1.5em",
-                  })}
-                  key={index}
-                  href={`/${navLink.replace(" ", "")}`}
-                >
-                  {navLink}
-                </Link>
-              );
-            })}
-          </ul>
+            <Links />
+          </List>
         </Nav>
       )}
 

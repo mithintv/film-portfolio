@@ -1,11 +1,15 @@
 import { css } from "@emotion/react";
 
-export default function Heading({ title }: { title: string }) {
+export default function Heading({
+  title,
+}: {
+  title: string | string[] | undefined;
+}) {
   return (
     <h2
       css={css({
         textAlign: "center",
-        margin: "1.5rem 0",
+        margin: "3rem 0 0",
       })}
     >
       {title}

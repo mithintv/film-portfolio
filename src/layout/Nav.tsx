@@ -5,13 +5,26 @@ export default function Nav({ children }: { children: React.ReactNode }) {
     <nav
       css={css({
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
+        flexDirection: "column",
         alignItems: "center",
-        margin: "1.5rem 0",
+        width: "100vw",
+        backgroundColor: "#3E595C",
       })}
     >
-      {children}
+      <div
+        css={css({
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: "0",
+          padding: "2rem 0",
+          width: "100vw",
+          maxWidth: "1000px",
+        })}
+      >
+        {children}
+      </div>
     </nav>
   );
 }
