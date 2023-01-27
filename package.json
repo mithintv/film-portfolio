@@ -20,11 +20,16 @@
     "eslint-config-next": "13.0.3",
     "mongodb": "4.11",
     "mui-image": "^1.0.7",
+    "mysql2": "^3.0.1",
     "next": "13.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
+    "sequelize": "^6.28.0",
     "typescript": "4.9.3",
     "use-breakpoint": "^3.0.4"
+  },
+  "devDependencies": {
+    "@types/mysql": "^2.15.21"
   }
 }
