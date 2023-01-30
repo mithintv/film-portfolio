@@ -13,6 +13,7 @@ export default function App(
   { Component, pageProps }: AppProps,
   data: string[]
 ) {
+  console.log(data);
   return (
     <Navigation navLinks={data}>
       <Component {...pageProps} />
@@ -23,13 +24,6 @@ export default function App(
 export const getStaticProps: GetStaticProps = async (context) => {
   const response = await fetch("http://localhost:3000/api/navlinks");
   const data = await response.json();
-
-  try {
-    await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
 
   return {
     props: {
