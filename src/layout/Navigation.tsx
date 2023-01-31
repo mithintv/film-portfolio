@@ -20,29 +20,11 @@ import {
 
 const breakpoints = { mobile: 0, tablet: 768, desktop: 1024 };
 
-export default function DesktopNav({
+export default function Navigation({
   children,
-  navLinks = [
-    "Narrative",
-    "Music Video",
-    "Commercial",
-    "Non Fiction",
-    "About",
-    "Contact",
-  ],
 }: {
   children: React.ReactNode;
-  navLinks: string[];
 }) {
-  const nav = [
-    "narrative",
-    "music video",
-    "commercial",
-    "nonfiction",
-    "about",
-    "contact",
-  ];
-
   const { breakpoint } = useBreakpoint(breakpoints, "mobile", false);
 
   return (

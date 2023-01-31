@@ -1,5 +1,4 @@
 import { Sequelize, Model, DataTypes } from "sequelize";
-import type { AppProps } from "next/app";
 
 export const sequelize = new Sequelize(
   "film_portfolio",
@@ -10,7 +9,7 @@ export const sequelize = new Sequelize(
     dialect: "mysql",
   }
 );
-export interface ProjectType extends AppProps {
+export type ProjectType = {
   projects: {
     id: string;
     title: string;
@@ -18,7 +17,7 @@ export interface ProjectType extends AppProps {
     category: string;
     published: string;
   }[];
-}
+};
 
 export const Project = sequelize.define(
   "project",
@@ -41,3 +40,20 @@ export const Project = sequelize.define(
     timestamps: false,
   }
 );
+
+export const getProjects = async (category: string) => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+
+    const response = await Project.findAll({
+      where: {
+        category: category,
+      },
+    });
+
+    return JSON.parse(JSON.stringify(response));
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+};
