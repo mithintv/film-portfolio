@@ -4,6 +4,7 @@ import { css } from "@emotion/react";
 import { Container } from "@mui/material";
 
 import Heading from "../src/layout/Heading";
+import { sequelize } from "../src/lib/mysql";
 
 export default function Home() {
   const [showPlayer, setShowPlayer] = useState(false);
@@ -89,3 +90,16 @@ export default function Home() {
     </section>
   );
 }
+
+export const getStaticProps = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+
+  return {
+    props: {},
+  };
+};
