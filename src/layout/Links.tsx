@@ -17,7 +17,6 @@ export default function Links() {
     "music video",
     "commercial",
     "nonfiction",
-    "about",
     "contact",
   ];
   return (

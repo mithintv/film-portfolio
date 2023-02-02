@@ -37,7 +37,7 @@ export default function Navigation({
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-evenly",
-              margin: "1.5rem 0rem",
+              margin: "0",
             })}
           >
             <Links />

@@ -18,15 +18,6 @@ import {
 import { IoMenu } from "react-icons/io5";
 
 export default function MobileNav() {
-  const nav = [
-    "narrative",
-    "music video",
-    "commercial",
-    "nonfiction",
-    "about",
-    "contact",
-  ];
-
   const [drawer, setDrawer] = useState(false);
   const toggleDrawer = () => {
     setDrawer((prevState) => {

@@ -9,14 +9,20 @@ export const sequelize = new Sequelize(
     dialect: "mysql",
   }
 );
+
 export type ProjectType = {
-  projects: {
-    id: string;
-    title: string;
-    url: string;
-    category: string;
-    published: string;
-  }[];
+  id: string;
+  title: string;
+  url: string;
+  category: string;
+  role: string;
+  published: string;
+  thumbnail: string;
+  display: boolean;
+};
+
+export type ProjectsType = {
+  projects: ProjectType[];
 };
 
 export const Project = sequelize.define(
@@ -34,7 +40,18 @@ export const Project = sequelize.define(
       "Commercial",
       "Non Fiction"
     ),
+    role: DataTypes.ENUM(
+      "Director",
+      "Cinematographer",
+      "Editor",
+      "Colorist",
+      "2D Animator/Motion Graphic Designer",
+      "AC",
+      "Grip"
+    ),
     published: DataTypes.DATE,
+    thumbnail: DataTypes.TEXT,
+    display: DataTypes.BOOLEAN,
   },
   {
     timestamps: false,

@@ -1,10 +1,15 @@
 import { useState } from "react";
 
 import { css } from "@emotion/react";
-import { Container } from "@mui/material";
+import Image from "mui-image";
+import { Container, Paper } from "@mui/material";
 
 import Heading from "../src/layout/Heading";
 import { sequelize } from "../src/lib/mysql";
+
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import ReactPlayer from "react-player";
 
 export default function Home() {
   const [showPlayer, setShowPlayer] = useState(false);
@@ -23,7 +28,17 @@ export default function Home() {
       })}
     >
       <Heading title="Reel" />
-      <Container>
+      <Container maxWidth="md">
+        <div
+          css={css({
+            width: "100%",
+            position: "relative",
+          })}
+        >
+          <ReactPlayer url="https://vimeo.com/556691314" />
+        </div>
+      </Container>
+      {/* <Container>
         <iframe
           css={css({
             margin: "0",
@@ -35,7 +50,7 @@ export default function Home() {
           allow="autoplay; fullscreen"
           allowFullScreen
         ></iframe>
-      </Container>
+      </Container> */}
       <div
         // onClick={clickHandler}
         css={css({

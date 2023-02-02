@@ -1,8 +1,11 @@
+import Link from "next/link";
+
 import { css } from "@emotion/react";
 
 export default function Title() {
   return (
-    <section
+    <Link
+      href="/"
       css={css({
         flexDirection: "column",
       })}
@@ -23,6 +26,6 @@ export default function Title() {
       >
         Director & Cinematographer
       </h3>
-    </section>
+    </Link>
   );
 }

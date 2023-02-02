@@ -8,7 +8,7 @@ export default function Nav({ children }: { children: React.ReactNode }) {
         flexDirection: "column",
         alignItems: "center",
         width: "100vw",
-        backgroundColor: "#3E595C",
+        backgroundColor: "#f0f0f0",
       })}
     >
       <div
