@@ -19,6 +19,7 @@ export type ProjectType = {
   published: string;
   thumbnail: string;
   display: boolean;
+  localThumbnail: string;
 };
 
 export type ProjectsType = {
@@ -52,6 +53,7 @@ export const Project = sequelize.define(
     published: DataTypes.DATE,
     thumbnail: DataTypes.TEXT,
     display: DataTypes.BOOLEAN,
+    localThumbnail: DataTypes.TEXT,
   },
   {
     timestamps: false,

@@ -8,6 +8,7 @@
 # testing
 /assets
 /coverage
+/public/images
 
 # next.js
 /.next/
