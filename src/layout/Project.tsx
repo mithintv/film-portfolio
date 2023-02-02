@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Image from "next/image";
 
@@ -6,6 +6,7 @@ import ReactPlayer from "react-player";
 import { ProjectType } from "../lib/mysql";
 
 // MUI and Emotion
+import classes from "./Project.module.css";
 import Fade from "@mui/material/Fade";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/material/Box";
@@ -21,8 +22,8 @@ type AppProps = {
 
 export default function Project(props: AppProps) {
   const [open, setOpen] = useState<true | false>(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [details, setDetails] = useState<true | false>(false);
+  const roles = props.project.role.split(",");
 
   return (
     <Fade in {...{ timeout: 1000 * (props.timeout + 1) }}>
@@ -34,13 +35,54 @@ export default function Project(props: AppProps) {
         css={css({
           width: "33vw",
         })}
+        onMouseEnter={() => setDetails(true)}
+        onMouseLeave={() => setDetails(false)}
       >
         <AspectRatio sx={{ width: "100%" }}>
+          <div
+            css={css({
+              width: "100%",
+              height: "100%",
+              backgroundColor: "#000",
+              zIndex: 2,
+              cursor: "pointer",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            })}
+            className={details ? classes.detailsFadeIn : classes.detailsFadeOut}
+          >
+            <Typography
+              css={css({
+                color: "#fff",
+              })}
+              variant="h6"
+              align="center"
+            >
+              {props.project.title}
+            </Typography>
+            {roles.map((role, index) => {
+              return (
+                <Typography
+                  key={index}
+                  css={css({
+                    color: "#fff",
+                    display: "block",
+                  })}
+                  variant="caption"
+                  align="center"
+                >
+                  {role}
+                </Typography>
+              );
+            })}
+          </div>
           <Image
             css={css({
-              cursor: "pointer",
+              objectFit: "cover",
             })}
-            onClick={handleOpen}
+            className={details ? classes.imgPushIn : classes.imgPushOut}
+            onClick={() => setOpen(true)}
             sizes="(max-width: 768px) 90vw,
             (max-width: 1200px) 50vw,
             33vw"
@@ -61,7 +103,7 @@ export default function Project(props: AppProps) {
             borderRadius: "0px",
           })}
           open={open}
-          onClose={handleClose}
+          onClose={() => setOpen(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
