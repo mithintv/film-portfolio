@@ -4,19 +4,20 @@ import { TypeAnimation } from "react-type-animation";
 
 import { css } from "@emotion/react";
 
-export default function Header() {
+export default function Header({ mobile }: { mobile: boolean }) {
   return (
     <Link
       href="/"
       css={css({
         flexDirection: "column",
         height: "3rem",
+        textAlign: mobile ? "center" : "start",
       })}
     >
       <h1
         css={css({
           margin: "0rem 0rem 0.15rem",
-          fontSize: "2rem",
+          fontSize: "1.85rem",
         })}
       >
         MITHIN G. THOMAS

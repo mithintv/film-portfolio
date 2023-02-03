@@ -1,37 +1,26 @@
-import Link from "next/link";
-import { useState } from "react";
-
-import useBreakpoint from "use-breakpoint";
 import Nav from "./Nav";
 import Header from "./Header";
 import MobileNav from "./MobileNav";
 import Links from "./Links";
 
 import { css } from "@emotion/react";
-import {
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-
-const breakpoints = { mobile: 0, tablet: 768, desktop: 1024 };
+import { List } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function Navigation({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { breakpoint } = useBreakpoint(breakpoints, "mobile", false);
+  const desktop = useMediaQuery("(min-width:1024px)");
+  const tablet = useMediaQuery("(max-width:1024px)");
+  const mobile = useMediaQuery("(max-width:570px)");
 
   return (
     <>
-      {breakpoint === "desktop" && (
-        <Nav>
-          <Header />
+      {desktop && !tablet && (
+        <Nav mobile={false}>
+          <Header mobile={false} />
           <List
             css={css({
               display: "flex",
@@ -44,8 +33,8 @@ export default function Navigation({
           </List>
         </Nav>
       )}
-
-      {breakpoint !== "desktop" && <MobileNav />}
+      {tablet && !mobile && <MobileNav mobile={false} />}
+      {mobile && <MobileNav mobile={true} />}
       <main
         css={css({
           display: "flex",

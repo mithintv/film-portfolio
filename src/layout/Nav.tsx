@@ -1,6 +1,11 @@
 import { css } from "@emotion/react";
 
-export default function Nav({ children }: { children: React.ReactNode }) {
+type AppProps = {
+  mobile: boolean;
+  children: React.ReactNode;
+};
+
+export default function Nav({ mobile, children }: AppProps) {
   return (
     <nav
       css={css({
@@ -14,11 +19,11 @@ export default function Nav({ children }: { children: React.ReactNode }) {
       <div
         css={css({
           display: "flex",
-          flexDirection: "row",
+          flexDirection: mobile ? "column" : "row",
           justifyContent: "space-between",
           alignItems: "center",
           margin: "0 auto",
-          padding: "2rem 2rem",
+          padding: "2rem 1rem",
           width: "100%",
           maxWidth: "1400px",
         })}

@@ -1,23 +1,18 @@
-import Link from "next/link";
 import { useState } from "react";
 
 import Nav from "./Nav";
-import Title from "./Header";
+import Header from "./Header";
 import Links from "./Links";
 
 import { css } from "@emotion/react";
-import {
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { Drawer } from "@mui/material";
 import { IoMenu } from "react-icons/io5";
 
-export default function MobileNav() {
+type AppProps = {
+  mobile: boolean;
+};
+
+export default function MobileNav({ mobile }: AppProps) {
   const [drawer, setDrawer] = useState(false);
   const toggleDrawer = () => {
     setDrawer((prevState) => {
@@ -27,18 +22,30 @@ export default function MobileNav() {
 
   return (
     <>
-      <Nav>
-        <Title />
-        <IoMenu
-          css={css({
-            fontSize: "2.5rem",
-            cursor: "pointer",
-            marginRight: "2rem",
-          })}
-          onClick={toggleDrawer}
-        />
+      <Nav mobile={mobile}>
+        {mobile && (
+          <IoMenu
+            css={css({
+              fontSize: "2.5rem",
+              cursor: "pointer",
+              marginBottom: "2rem",
+            })}
+            onClick={toggleDrawer}
+          />
+        )}
+        <Header mobile={mobile} />
+        {!mobile && (
+          <IoMenu
+            css={css({
+              fontSize: "2.5rem",
+              cursor: "pointer",
+              margin: "0 1rem 0.5rem 0",
+            })}
+            onClick={toggleDrawer}
+          />
+        )}
       </Nav>
-      <Drawer anchor={"right"} open={drawer} onClose={toggleDrawer}>
+      <Drawer anchor={"top"} open={drawer} onClose={toggleDrawer}>
         <Links />
       </Drawer>
     </>

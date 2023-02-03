@@ -28,7 +28,7 @@ export default function Project(props: AppProps) {
   const roles = props.project.role.split(",");
 
   const handleResize = () => {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 768 || window.devicePixelRatio <= 4) {
       setMobile(true);
     } else {
       setMobile(false);
