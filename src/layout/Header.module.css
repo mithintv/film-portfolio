@@ -1,0 +1,30 @@
+@keyframes cycle {
+  0% {
+    content: "Director";
+  }
+  16.66% {
+    content: "Cinematographer";
+  }
+  33.33% {
+    content: "Editor";
+  }
+  49.99% {
+    content: "Colorist";
+  }
+  66.66% {
+    content: "AC";
+  }
+  83.33% {
+    content: "Grip";
+  }
+  100% {
+    content: "Director";
+  }
+}
+
+.cycle:after {
+  animation-name: cycle;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  content: "";
+}
