@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import useBreakpoint from "use-breakpoint";
 import Nav from "./Nav";
-import Title from "./Header";
+import Header from "./Header";
 import MobileNav from "./MobileNav";
 import Links from "./Links";
 
@@ -31,7 +31,7 @@ export default function Navigation({
     <>
       {breakpoint === "desktop" && (
         <Nav>
-          <Title />
+          <Header />
           <List
             css={css({
               display: "flex",

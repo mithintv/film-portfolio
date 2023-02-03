@@ -7,7 +7,12 @@ import Project from "./Project";
 
 export default function Projects({ projects }: ProjectsType) {
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        padding: "0 2em",
+        width: "100%",
+      }}
+    >
       <Grid
         container
         justifyContent="center"

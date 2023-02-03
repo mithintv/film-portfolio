@@ -34,6 +34,7 @@ export default function Project(props: AppProps) {
         md={4}
         css={css({
           width: "33vw",
+          padding: "0",
         })}
         onMouseEnter={() => setDetails(true)}
         onMouseLeave={() => setDetails(false)}

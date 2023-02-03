@@ -7,7 +7,7 @@ export default function Nav({ children }: { children: React.ReactNode }) {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "100vw",
+        width: "100%",
         backgroundColor: "#f0f0f0",
       })}
     >
@@ -17,10 +17,10 @@ export default function Nav({ children }: { children: React.ReactNode }) {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          margin: "0",
-          padding: "2rem 0",
-          width: "100vw",
-          maxWidth: "1000px",
+          margin: "0 auto",
+          padding: "2rem 2rem",
+          width: "100%",
+          maxWidth: "1400px",
         })}
       >
         {children}
