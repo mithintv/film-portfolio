@@ -21,10 +21,26 @@ type AppProps = {
 };
 
 export default function Project(props: AppProps) {
+  const [mobile, setMobile] = useState<true | false>(true);
   const containerRef = React.useRef(null);
   const [open, setOpen] = useState<true | false>(false);
   const [details, setDetails] = useState<true | false>(false);
   const roles = props.project.role.split(",");
+
+  const handleResize = () => {
+    if (window.innerWidth <= 768) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
 
   const slideIn = keyframes`
   from {
@@ -42,9 +58,9 @@ export default function Project(props: AppProps) {
     >
       <Grid
         item
-        xs={props.feature ? 8 : 8}
-        sm={props.feature ? 8 : 4}
-        md={props.feature ? 8 : 4}
+        xs={8}
+        sm={4}
+        md={4}
         css={css({
           padding: "0",
           width: props.feature ? "inherit" : "33vw",
@@ -58,7 +74,7 @@ export default function Project(props: AppProps) {
       >
         <AspectRatio
           css={css({
-            width: props.feature ? "66vw" : "100%",
+            width: props.feature ? "80vw" : "100%",
             maxWidth: "1000px",
           })}
         >
@@ -117,40 +133,39 @@ export default function Project(props: AppProps) {
             alt={props.project.title}
           />
         </AspectRatio>
-
         <Modal
           css={css({
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
             width: "100vw",
-            height: "100vh",
             backgroundColor: "#000",
             border: "0px",
             borderRadius: "0px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           })}
           open={open}
           onClose={() => setOpen(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <AspectRatio
+          <Box
+            onClick={() => setOpen(false)}
             css={css({
+              backgroundColor: "#000",
               border: "0px",
               borderRadius: "0px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             })}
-            sx={{ width: "75%" }}
           >
-            <Box
-              sx={{
-                width: "75%",
-                height: "75%",
-                backgroundColor: "#000",
+            <AspectRatio
+              css={css({
                 border: "0px",
                 borderRadius: "0px",
-                display: "flex",
-                flexDirection: "column",
-              }}
+                width: mobile ? "100%" : "75%",
+              })}
             >
               <ReactPlayer
                 css={css({
@@ -163,8 +178,14 @@ export default function Project(props: AppProps) {
                 playing
                 controls={true}
               />
-            </Box>
-          </AspectRatio>
+            </AspectRatio>
+            <Box
+              css={css({
+                height: "100px",
+                zIndex: -1,
+              })}
+            ></Box>
+          </Box>
         </Modal>
       </Grid>
     </Fade>
