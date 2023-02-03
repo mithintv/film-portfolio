@@ -1,13 +1,13 @@
 import { GetStaticProps } from "next";
 import Heading from "../src/layout/Heading";
-import Projects from "../src/layout/Projects";
-import { getProjects, ProjectType } from "../src/lib/mysql";
+import ProjectList from "../src/layout/ProjectLIst";
+import { getProjects, ProjectsType } from "../src/lib/mysql";
 
-export default function MusicVideo({ projects }: ProjectType) {
+export default function MusicVideo({ projects }: ProjectsType) {
   return (
     <div>
       <Heading title="Non Fiction" />
-      <Projects projects={projects} />
+      <ProjectList projects={projects} />
     </div>
   );
 }

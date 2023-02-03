@@ -3,7 +3,6 @@ import Link from "next/link";
 import { TypeAnimation } from "react-type-animation";
 
 import { css } from "@emotion/react";
-import classes from "./Header.module.css";
 
 export default function Header() {
   return (
@@ -34,11 +33,9 @@ export default function Header() {
           1000,
           "2D Animator",
           1000,
-          "Motion Graphic Designer",
+          "AC/Focus Puller",
           1000,
-          "AC",
-          1000,
-          "Grip",
+          "Gaffer/Grip",
           1000,
           () => {
             // Place optional callbacks anywhere in the array

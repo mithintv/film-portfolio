@@ -6,41 +6,64 @@ import ReactPlayer from "react-player";
 import { ProjectType } from "../lib/mysql";
 
 // MUI and Emotion
-import classes from "./Project.module.css";
 import Fade from "@mui/material/Fade";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
 
 type AppProps = {
   project: ProjectType;
+  feature?: boolean | undefined;
   timeout: number;
 };
 
 export default function Project(props: AppProps) {
+  const containerRef = React.useRef(null);
   const [open, setOpen] = useState<true | false>(false);
   const [details, setDetails] = useState<true | false>(false);
   const roles = props.project.role.split(",");
 
+  const slideIn = keyframes`
+  from {
+    transform: translateY(50px);
+  }
+  to {
+    transform: translateY(0px);
+  }`;
+
   return (
-    <Fade in {...{ timeout: 1000 * (props.timeout + 1) }}>
+    <Fade
+      in
+      timeout={1000}
+      style={{ transitionDelay: `${props.timeout * 100}ms` }}
+    >
       <Grid
         item
-        xs={8}
-        sm={4}
-        md={4}
+        xs={props.feature ? 8 : 8}
+        sm={props.feature ? 8 : 4}
+        md={props.feature ? 8 : 4}
         css={css({
-          width: "33vw",
           padding: "0",
+          width: props.feature ? "inherit" : "33vw",
+          opacity: 1,
+          height: "100%",
+          animation: `${slideIn} 1s ease`,
+          animationDelay: `${props.timeout * 100}ms`,
         })}
         onMouseEnter={() => setDetails(true)}
         onMouseLeave={() => setDetails(false)}
       >
-        <AspectRatio sx={{ width: "100%" }}>
+        <AspectRatio
+          css={css({
+            width: props.feature ? "66vw" : "100%",
+            maxWidth: "1000px",
+          })}
+        >
           <div
+            ref={containerRef}
             css={css({
               width: "100%",
               height: "100%",
@@ -50,8 +73,10 @@ export default function Project(props: AppProps) {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              opacity: details ? 0.75 : 0,
+              transition: "opacity 0.5s ease",
             })}
-            className={details ? classes.detailsFadeIn : classes.detailsFadeOut}
+            onClick={() => setOpen(true)}
           >
             <Typography
               css={css({
@@ -81,9 +106,9 @@ export default function Project(props: AppProps) {
           <Image
             css={css({
               objectFit: "cover",
+              transform: details ? "scale(1.1)" : "scale(1.0)",
+              transition: "transform 0.5s ease",
             })}
-            className={details ? classes.imgPushIn : classes.imgPushOut}
-            onClick={() => setOpen(true)}
             sizes="(max-width: 768px) 90vw,
             (max-width: 1200px) 50vw,
             33vw"
@@ -92,6 +117,7 @@ export default function Project(props: AppProps) {
             alt={props.project.title}
           />
         </AspectRatio>
+
         <Modal
           css={css({
             display: "flex",

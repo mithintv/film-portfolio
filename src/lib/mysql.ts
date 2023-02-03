@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes } from "sequelize";
+import { Sequelize, Model, DataTypes, Op } from "sequelize";
 
 export const sequelize = new Sequelize(
   "film_portfolio",
@@ -60,15 +60,24 @@ export const Project = sequelize.define(
   }
 );
 
-export const getProjects = async (category: string) => {
+export const getProjects = async (category: string, title?: string) => {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
 
+    const whereCondition = {} as {
+      category: string;
+      title?: string;
+    };
+
+    if (title) {
+      whereCondition.title = title;
+    }
+
+    whereCondition.category = category;
+
     const response = await Project.findAll({
-      where: {
-        category: category,
-      },
+      where: whereCondition,
     });
 
     return JSON.parse(JSON.stringify(response));

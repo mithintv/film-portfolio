@@ -1,11 +1,10 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-import ReactPlayer from "react-player";
 import { ProjectsType } from "../lib/mysql";
 import Project from "./Project";
 
-export default function Projects({ projects }: ProjectsType) {
+export default function ProjectList({ projects }: ProjectsType) {
   return (
     <Box
       sx={{
