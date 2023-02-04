@@ -10,14 +10,22 @@ import { IoMenu } from "react-icons/io5";
 
 type AppProps = {
   mobile: boolean;
+  tablet: boolean;
 };
 
-export default function MobileNav({ mobile }: AppProps) {
+export default function MobileNav({ mobile, tablet }: AppProps) {
   const [drawer, setDrawer] = useState(false);
   const toggleDrawer = () => {
-    setDrawer((prevState) => {
-      return !prevState;
-    });
+    if (drawer) {
+      setTimeout(() => {
+        setDrawer((prevState) => {
+          return !prevState;
+        });
+      }, 250);
+    } else
+      setDrawer((prevState) => {
+        return !prevState;
+      });
   };
 
   return (
@@ -26,9 +34,9 @@ export default function MobileNav({ mobile }: AppProps) {
         {mobile && (
           <IoMenu
             css={css({
-              fontSize: "2.5rem",
+              fontSize: "2rem",
               cursor: "pointer",
-              marginBottom: "2rem",
+              margin: "0 0 1rem 0",
             })}
             onClick={toggleDrawer}
           />
@@ -37,16 +45,16 @@ export default function MobileNav({ mobile }: AppProps) {
         {!mobile && (
           <IoMenu
             css={css({
-              fontSize: "2.5rem",
+              fontSize: "2rem",
               cursor: "pointer",
-              margin: "0 1rem 0.5rem 0",
+              margin: "0 0.5rem",
             })}
             onClick={toggleDrawer}
           />
         )}
       </Nav>
       <Drawer anchor={"top"} open={drawer} onClose={toggleDrawer}>
-        <Links />
+        <Links onClose={toggleDrawer} mobile={mobile} tablet={tablet} />
       </Drawer>
     </>
   );

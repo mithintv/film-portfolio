@@ -1,17 +1,16 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { css } from "@emotion/react";
-import {
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { List, ListItem, ListItemText } from "@mui/material";
 
-export default function Links() {
+type AppProps = {
+  mobile: boolean;
+  tablet: boolean;
+  onClose: () => void;
+};
+
+export default function Links({ onClose, mobile, tablet }: AppProps) {
   const nav = [
     "narrative",
     "music video",
@@ -19,24 +18,66 @@ export default function Links() {
     "nonfiction",
     "contact",
   ];
+
+  const router = useRouter();
+  console.log(router.route);
+
   return (
-    <>
+    <List
+      css={css({
+        display: "flex",
+        flexDirection: tablet || mobile ? "column" : "row",
+        padding: "0",
+      })}
+    >
       {nav.map((navLink, index) => {
         return (
-          <ListItem key={navLink} disablePadding>
-            <ListItemButton
+          <ListItem onClick={onClose} key={navLink} disablePadding>
+            <Link
+              href={`/${navLink.replace(" ", "")}`}
               css={css({
-                justifyContent: "center",
-                width: index === 1 ? "118px" : "",
+                width: "100%",
+                padding: "0 0.5rem",
               })}
             >
-              <Link key={index} href={`/${navLink.replace(" ", "")}`}>
+              <ListItemText
+                css={css({
+                  "&::after": {
+                    content: '""',
+                    position: "absolute",
+                    width: "100% - 0px",
+                    transform: "scaleX(0)",
+                    height: "1.25px",
+                    bottom: 0,
+                    left: 8,
+                    backgroundColor: "#2E2E2E",
+                    transformOrigin: "bottom left",
+                    transition: "transform 0.25s ease-out",
+                  },
+                  "&:hover::after": {
+                    transform: "scaleX(1)",
+                    right: 8,
+                    // transformOrigin: "bottom left",
+                  },
+                  display: "block",
+                  textAlign: "center",
+                  justifyContent: "center",
+                  width: index === 1 ? "88px" : "100%",
+                  padding: tablet || mobile ? "1rem 0" : "0 0",
+                  margin: "0 auto",
+                  textDecoration:
+                    router.route.replace(/\//g, "") === navLink.replace(" ", "")
+                      ? "underline"
+                      : "none",
+                  textUnderlineOffset: "5px",
+                })}
+              >
                 {navLink}
-              </Link>
-            </ListItemButton>
+              </ListItemText>
+            </Link>
           </ListItem>
         );
       })}
-    </>
+    </List>
   );
 }
