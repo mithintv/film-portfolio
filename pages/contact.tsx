@@ -234,17 +234,19 @@ export default function Contact({ mini }: { mini: boolean }) {
           }}
         >
           <FormLabel
-            css={css({
+            css={{
               margin: "0 0 1rem",
-            })}
+            }}
           >
             Your Message
           </FormLabel>
           <TextField
-            css={css({
-              margin: "0 0 2rem",
-            })}
-            variant="standard"
+            required
+            size="small"
+            css={{
+              margin: "0 0 1rem",
+            }}
+            variant="outlined"
             placeholder="Subject"
           />
           <TextField placeholder="Message" multiline rows={8} />
