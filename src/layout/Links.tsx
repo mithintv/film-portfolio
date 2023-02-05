@@ -14,7 +14,7 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
     "narrative",
     "music video",
     "commercial",
-    "nonfiction",
+    "non fiction",
     "contact",
   ];
 
@@ -30,7 +30,7 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
             position: "absolute",
             width: "100% - 0px",
             transform: "scaleX(0)",
-            height: "1.25px",
+            height: "3.5px",
             bottom: 0,
             left: 8,
             right: 8,
@@ -75,14 +75,23 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
               href={`/${navLink.replace(" ", "")}`}
               css={{
                 width: "100%",
+                pointerEvents:
+                  router.route.replace(/\//g, "") === navLink.replace(" ", "")
+                    ? "none"
+                    : "auto",
               }}
             >
               <ListItemText
                 css={{
-                  display: "block",
+                  span: {
+                    color: "#2e2e2e",
+                    fontWeight: "600",
+                    whiteSpace: "nowrap",
+                  },
+                  display: "inline-block",
                   textAlign: "center",
                   justifyContent: "center",
-                  width: index === 1 ? "88px" : "100%",
+                  width: "100%",
                   padding: tablet || mobile ? "1rem 0" : "0 0",
                   margin: "0 auto",
                   textDecoration:
@@ -91,7 +100,8 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
                     router.route.replace(/\//g, "") === navLink.replace(" ", "")
                       ? "underline"
                       : "none",
-                  textUnderlineOffset: "5px",
+                  textUnderlineOffset: "3px",
+                  textDecorationThickness: "3.5px",
                   ...underlineAnimation,
                 }}
               >
