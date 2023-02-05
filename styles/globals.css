@@ -9,7 +9,7 @@ body {
   margin: auto;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #f0f0f0;
+  background-color: #fff;
   color: #2e2e2e;
 }
 
@@ -33,13 +33,13 @@ p {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f0f0f0;
+  background: #fff;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: rgb(150, 150, 150);
-  border: 2px solid #f0f0f0;
+  border: 2px solid #fff;
   border-radius: 10px;
 }
 
@@ -47,15 +47,3 @@ p {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(125, 125, 125);
 }
-
-.MuiFormLabel-root {
-  color: #d7f0f5;
-}
-
-.MuiDrawer-paper {
-  background-color: #83a3a9;
-}
-
-/* .Mui-selected {
-  background-color: #f0f0f0;
-} */

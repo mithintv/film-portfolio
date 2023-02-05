@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { css } from "@emotion/react";
 import { List, ListItem, ListItemText } from "@mui/material";
 
 type AppProps = {
@@ -22,43 +21,64 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
   const router = useRouter();
   console.log(router.route);
 
+  const underlineAnimation: {} | undefined =
+    tablet || mobile
+      ? undefined
+      : {
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            width: "100% - 0px",
+            transform: "scaleX(0)",
+            height: "1.25px",
+            bottom: 0,
+            left: 8,
+            right: 8,
+            backgroundColor: "#2E2E2E",
+            transformOrigin: "bottom right",
+            transition: "transform 0.25s ease-out",
+          },
+          "&:hover::after": {
+            transform: "scaleX(1)",
+            right: 8,
+            transformOrigin: "bottom left",
+          },
+        };
+
   return (
     <List
-      css={css({
+      css={{
         display: "flex",
         flexDirection: tablet || mobile ? "column" : "row",
         padding: "0",
-      })}
+      }}
     >
       {nav.map((navLink, index) => {
         return (
-          <ListItem onClick={onClose} key={navLink} disablePadding>
+          <ListItem
+            css={{
+              width: "100%",
+              padding: tablet || mobile ? "0" : "0 0.5rem",
+              backgroundColor:
+                (tablet || mobile) &&
+                router.route.replace(/\//g, "") === navLink.replace(" ", "")
+                  ? "#F1F1F1"
+                  : "#FFF",
+              "&:hover": {
+                backgroundColor: tablet || mobile ? "#F1F1F1" : "#fff",
+              },
+            }}
+            onClick={onClose}
+            key={navLink}
+          >
             <Link
               href={`/${navLink.replace(" ", "")}`}
-              css={css({
+              css={{
                 width: "100%",
-                padding: "0 0.5rem",
-              })}
+              }}
             >
               <ListItemText
-                css={css({
-                  "&::after": {
-                    content: '""',
-                    position: "absolute",
-                    width: "100% - 0px",
-                    transform: "scaleX(0)",
-                    height: "1.25px",
-                    bottom: 0,
-                    left: 8,
-                    backgroundColor: "#2E2E2E",
-                    transformOrigin: "bottom left",
-                    transition: "transform 0.25s ease-out",
-                  },
-                  "&:hover::after": {
-                    transform: "scaleX(1)",
-                    right: 8,
-                    // transformOrigin: "bottom left",
-                  },
+                css={{
                   display: "block",
                   textAlign: "center",
                   justifyContent: "center",
@@ -66,11 +86,14 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
                   padding: tablet || mobile ? "1rem 0" : "0 0",
                   margin: "0 auto",
                   textDecoration:
+                    !tablet &&
+                    !mobile &&
                     router.route.replace(/\//g, "") === navLink.replace(" ", "")
                       ? "underline"
                       : "none",
                   textUnderlineOffset: "5px",
-                })}
+                  ...underlineAnimation,
+                }}
               >
                 {navLink}
               </ListItemText>

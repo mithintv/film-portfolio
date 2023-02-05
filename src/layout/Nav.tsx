@@ -13,7 +13,6 @@ export default function Nav({ mobile, children }: AppProps) {
         flexDirection: "column",
         alignItems: "center",
         width: "100%",
-        backgroundColor: "#f0f0f0",
         margin: "0 auto",
       })}
     >
