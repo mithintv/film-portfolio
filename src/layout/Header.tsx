@@ -8,17 +8,18 @@ export default function Header({ mobile }: { mobile: boolean }) {
   return (
     <Link
       href="/"
-      css={css({
+      css={{
         flexDirection: "column",
         height: "3rem",
         textAlign: mobile ? "center" : "start",
-      })}
+      }}
     >
       <h1
-        css={css({
-          margin: "0rem 0rem 0.15rem",
-          fontSize: "1.85rem",
-        })}
+        css={{
+          margin: "0rem 0rem",
+          fontSize: "1.65rem",
+          lineHeight: "1.75rem",
+        }}
       >
         MITHIN G. THOMAS
       </h1>
@@ -34,9 +35,11 @@ export default function Header({ mobile }: { mobile: boolean }) {
           1000,
           "2D Animator",
           1000,
-          "AC/Focus Puller",
+          "Camera Op",
           1000,
-          "Gaffer/Grip",
+          "1st AC",
+          1000,
+          "Grip",
           1000,
           () => {
             // Place optional callbacks anywhere in the array
@@ -45,18 +48,11 @@ export default function Header({ mobile }: { mobile: boolean }) {
         wrapper="h3"
         cursor={false}
         repeat={Infinity}
-        css={css({
-          fontSize: "0.85rem",
+        css={{
+          fontSize: "1rem",
           margin: "0.15rem 0.15rem 0",
-        })}
+        }}
       />
-      {/* <h3
-        css={css({
-          fontSize: "0.85rem",
-          margin: "0.15rem 0.15rem 0",
-        })}
-        className={classes.cycle}
-      ></h3> */}
     </Link>
   );
 }

@@ -5,7 +5,7 @@ import Header from "./Header";
 import Links from "./Links";
 
 import { css } from "@emotion/react";
-import { Drawer } from "@mui/material";
+import { SwipeableDrawer } from "@mui/material";
 import { IoMenu } from "react-icons/io5";
 
 type AppProps = {
@@ -53,9 +53,14 @@ export default function MobileNav({ mobile, tablet }: AppProps) {
           />
         )}
       </Nav>
-      <Drawer anchor={"top"} open={drawer} onClose={toggleDrawer}>
+      <SwipeableDrawer
+        anchor={"top"}
+        open={drawer}
+        onOpen={toggleDrawer}
+        onClose={toggleDrawer}
+      >
         <Links onClose={toggleDrawer} mobile={mobile} tablet={tablet} />
-      </Drawer>
+      </SwipeableDrawer>
     </>
   );
 }

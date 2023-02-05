@@ -5,19 +5,18 @@ import Links from "./Links";
 
 import { css } from "@emotion/react";
 import { List } from "@mui/material";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../theme";
 
 export default function Navigation({
+  desktop,
+  tablet,
+  mobile,
   children,
 }: {
+  desktop: boolean;
+  tablet: boolean;
+  mobile: boolean;
   children: React.ReactNode;
 }) {
-  const desktop = useMediaQuery("(min-width:900px)");
-  const tablet = useMediaQuery("(max-width:900px)");
-  const mobile = useMediaQuery("(max-width:600px)");
-
   return (
     <>
       {desktop && !tablet && (
@@ -31,7 +30,7 @@ export default function Navigation({
               margin: "0",
             })}
           >
-            <Links tablet={false} mobile={false} />
+            <Links onClose={() => {}} tablet={false} mobile={false} />
           </List>
         </Nav>
       )}

@@ -1,17 +1,28 @@
-/// <reference types="@emotion/react/types/css-prop" />
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { sequelize } from "../src/lib/mysql";
 import dynamic from "next/dynamic";
+
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const Navigation = dynamic(() => import("../src/layout/Navigation"), {
   ssr: false,
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const desktop = useMediaQuery("(min-width:900px)");
+  const tablet = useMediaQuery("(max-width:900px)");
+  const mobile = useMediaQuery("(max-width:600px)");
+  const mini = useMediaQuery("(max-width:480px)");
+
   return (
-    <Navigation>
-      <Component {...pageProps} />
+    <Navigation desktop={desktop} tablet={tablet} mobile={mobile}>
+      <Component
+        desktop={desktop}
+        tablet={tablet}
+        mobile={mobile}
+        mini={mini}
+        {...pageProps}
+      />
     </Navigation>
   );
 }
