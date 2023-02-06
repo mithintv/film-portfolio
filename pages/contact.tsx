@@ -2,6 +2,7 @@ import * as React from "react";
 import Heading from "../src/layout/Heading";
 
 import {
+  Button,
   Checkbox,
   Container,
   FormControl,
@@ -10,6 +11,7 @@ import {
   FormLabel,
   TextField,
   OutlinedInput,
+  Typography,
 } from "@mui/material";
 import { css } from "@emotion/react";
 import Input from "@mui/material/Input";
@@ -49,10 +51,15 @@ export default function Contact({ mini }: { mini: boolean }) {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container
+      maxWidth="sm"
+      css={{
+        margin: "0 0 2rem 0",
+      }}
+    >
       <Heading title="Contact" />
       {/* Form Container */}
-      <Container
+      <form
         css={{
           display: "flex",
           flexDirection: "column",
@@ -134,7 +141,7 @@ export default function Contact({ mini }: { mini: boolean }) {
           </FormGroup>
         </FormGroup>
 
-        {/* Questionaire container */}
+        {/* questionaire container */}
         <FormGroup
           css={{
             display: "flex",
@@ -153,11 +160,13 @@ export default function Contact({ mini }: { mini: boolean }) {
           ].map((element, index) => {
             return (
               <FormControlLabel
-                sx={{
-                  "& .MuiTypography-root": { fontSize: "0.9rem" },
-                }}
+                // sx={{
+                //   "& .MuiTypography-root": { fontSize: "0.9rem" },
+                // }}
                 key={index}
-                label={element}
+                label={
+                  <Typography variant="checkboxLabel">{element}</Typography>
+                }
                 control={
                   <Checkbox
                     sx={{
@@ -171,9 +180,9 @@ export default function Contact({ mini }: { mini: boolean }) {
             );
           })}
           <FormLabel
-            css={css({
+            css={{
               marginTop: "2rem",
-            })}
+            }}
           >
             In what capacity are you looking to hire Mithin?
           </FormLabel>
@@ -183,12 +192,13 @@ export default function Contact({ mini }: { mini: boolean }) {
                 (element, index) => {
                   return (
                     <FormControlLabel
-                      sx={{
-                        "& .MuiTypography-root": { fontSize: "0.9rem" },
-                      }}
                       css={{ fontSize: "0.5rem" }}
                       key={index}
-                      label={element}
+                      label={
+                        <Typography variant="checkboxLabel">
+                          {element}
+                        </Typography>
+                      }
                       control={
                         <Checkbox
                           sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
@@ -222,7 +232,7 @@ export default function Contact({ mini }: { mini: boolean }) {
           </FormGroup>
         </FormGroup>
 
-        {/* Message container */}
+        {/* message container */}
         <FormGroup
           css={{
             display: "flex",
@@ -251,7 +261,11 @@ export default function Contact({ mini }: { mini: boolean }) {
           />
           <TextField placeholder="Message" multiline rows={8} />
         </FormGroup>
-      </Container>
+
+        <Button type="submit" variant="contained" css={{ margin: "0 1rem" }}>
+          Submit
+        </Button>
+      </form>
     </Container>
   );
 }

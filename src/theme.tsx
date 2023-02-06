@@ -2,18 +2,55 @@ import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
 
+declare module "@mui/material/styles" {
+  interface Palette {
+    neutral: Palette["primary"];
+  }
+
+  // allow configuration using `createTheme`
+  interface PaletteOptions {
+    neutral?: PaletteOptions["primary"];
+  }
+
+  interface TypographyVariants {
+    checkboxLabel: React.CSSProperties;
+  }
+  interface TypographyVariantsOptions {
+    checkboxLabel?: React.CSSProperties;
+  }
+}
+
+// Update the Button's color prop options
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    neutral: true;
+  }
+}
+declare module "@mui/material/Typography" {
+  interface TypographyPropsVariantOverrides {
+    checkboxLabel: true;
+  }
+}
+
 export declare interface AppProps {
   children?: React.ReactNode; // best, accepts everything React can render
 }
 
 // Create a theme instance.
 export const theme = createTheme({
+  typography: {
+    checkboxLabel: {
+      fontSize: "0.9rem",
+    },
+  },
   palette: {
     primary: {
-      main: "#556cd6",
+      main: "#2e2e2e",
+      contrastText: "#fff",
     },
     secondary: {
-      main: "#19857b",
+      main: "#fff",
+      contrastText: "#2e2e2e",
     },
     error: {
       main: red.A400,
@@ -21,24 +58,12 @@ export const theme = createTheme({
   },
   components: {
     // Name of the component
-    MuiFormLabel: {
+    MuiFormControlLabel: {
       styleOverrides: {
         // Name of the slot
         root: {
+          fontSize: "0.5rem",
           // Some CSS
-          color: "#d7f0f5",
-        },
-      },
-    },
-    MuiListItemButton: {
-      styleOverrides: {
-        root: {
-          selected: {
-            backgroundColor: "#f0f0f0",
-          },
-        },
-        selected: {
-          backgroundColor: "#f0f0f0",
         },
       },
     },
