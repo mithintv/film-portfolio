@@ -1,4 +1,7 @@
 import React, { useReducer, useRef } from "react";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "../src/theme";
+
 import Heading from "../src/layout/Heading";
 
 import {
@@ -298,283 +301,289 @@ export default function Contact({ mini }: { mini: boolean }) {
   };
 
   return (
-    <Container
-      maxWidth="sm"
-      css={{
-        margin: "0 0 2rem 0",
-      }}
-    >
-      <Heading title="Contact" />
-      {/* Form Container */}
-      <form
-        ref={formRef}
-        onSubmit={submitHandler}
+    <ThemeProvider theme={theme}>
+      <Container
+        maxWidth="sm"
         css={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          margin: "0 0",
+          margin: "0 0 2rem 0",
         }}
       >
-        {/* contact container */}
-        <FormGroup
+        <Heading title="Contact" />
+        {/* Form Container */}
+        <form
+          ref={formRef}
+          onSubmit={submitHandler}
           css={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "start",
-            padding: "0 1rem",
+            justifyContent: "center",
+            margin: "0 0",
           }}
         >
-          <FormLabel>Who are you?</FormLabel>
-          {/* input container */}
+          {/* contact container */}
           <FormGroup
             css={{
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignContent: "center",
-              padding: "0",
-              marginBottom: "2em",
+              flexDirection: "column",
+              justifyContent: "start",
+              padding: "0 1rem",
             }}
           >
-            {["First Name", "Last Name", "Email", "Phone Number"].map(
-              (element, index) => {
-                if (index === 3) {
-                  return (
-                    <TextField
-                      key={index}
-                      helperText={
-                        valid["Phone Number"].showError
-                          ? `Please enter a valid ${element.toLowerCase()}.`
-                          : ""
-                      }
-                      error={valid["Phone Number"].showError ? true : false}
-                      onBlur={(event) => {
-                        handleBlur(event, phoneRef);
-                      }}
-                      inputProps={{ ref: phoneRef }}
-                      required
-                      size="small"
-                      name={element}
-                      id={element}
-                      value={valid["Phone Number"].value}
-                      onChange={(event) => {
-                        handleChange(event, phoneRef);
-                      }}
-                      InputProps={{ inputComponent: TextMaskCustom as any }}
-                      placeholder={element}
-                      css={{
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          border: "1px solid #2e2e2e",
-                        },
-                        margin: "0.25rem 0",
-                        padding: "0",
-                        width: mini ? "100%" : "49%",
-                      }}
-                    />
-                  );
-                } else {
-                  return (
-                    <TextField
-                      required
-                      helperText={
-                        valid[element as keyof typeof initialState].showError
-                          ? `Please enter a valid ${element.toLowerCase()}.`
-                          : ""
-                      }
-                      error={
-                        valid[element as keyof typeof initialState].showError
-                          ? true
-                          : false
-                      }
-                      onBlur={(event) => {
-                        handleBlur(event, refs[index]);
-                      }}
-                      onChange={(event) => {
-                        handleChange(event, refs[index]);
-                      }}
-                      inputProps={{ ref: refs[index] }}
-                      key={index}
-                      name={element}
-                      id={element}
-                      size="small"
-                      css={{
-                        margin: "0.25rem 0",
-                        padding: "0",
-                        width: mini ? "100%" : "49%",
-                      }}
-                      placeholder={element}
-                    />
-                  );
-                }
-              }
-            )}
-          </FormGroup>
-        </FormGroup>
-
-        {/* questionaire container */}
-        <FormGroup
-          css={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "space-between",
-            padding: "0 1rem",
-            marginBottom: "2rem",
-          }}
-        >
-          <FormLabel error>How did you hear about Mithin?*</FormLabel>
-          {[
-            "Social Media (Facebook, Instagram, YouTube, Vimeo, etc.)",
-            "Search Engine (Google, Yahoo, Bing, etc.)",
-            "Family, Friend, or Colleague",
-          ].map((element, index) => {
-            return (
-              <FormControlLabel
-                name="Hear"
-                id={`hear${index}`}
-                value={element}
-                key={index}
-                label={
-                  <Typography variant="checkboxLabel">{element}</Typography>
-                }
-                control={
-                  <Checkbox
-                    onChange={(event) => {
-                      handleCheck(event, hearRef);
-                    }}
-                    sx={{
-                      "& .MuiSvgIcon-root": {
-                        fontSize: "1rem",
-                      },
-                    }}
-                  />
-                }
-              ></FormControlLabel>
-            );
-          })}
-          <FormLabel
-            css={{
-              marginTop: "2rem",
-            }}
-          >
-            In what capacity are you looking to hire Mithin?
-          </FormLabel>
-          <FormGroup css={{ display: "flex", flexDirection: "row" }}>
-            <FormGroup>
-              {["Director", "Cinematographer", "Editor", "Colorist"].map(
+            <FormLabel>Who are you?</FormLabel>
+            {/* input container */}
+            <FormGroup
+              css={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignContent: "center",
+                padding: "0",
+                marginBottom: "2em",
+              }}
+            >
+              {["First Name", "Last Name", "Email", "Phone Number"].map(
                 (element, index) => {
-                  return (
-                    <FormControlLabel
-                      name={element}
-                      id={`roleP${index}`}
-                      css={{ fontSize: "0.5rem" }}
-                      key={index}
-                      label={
-                        <Typography variant="checkboxLabel">
-                          {element}
-                        </Typography>
-                      }
-                      control={
-                        <Checkbox
-                          sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
-                        />
-                      }
-                    ></FormControlLabel>
-                  );
+                  if (index === 3) {
+                    return (
+                      <TextField
+                        key={index}
+                        helperText={
+                          valid["Phone Number"].showError
+                            ? `Please enter a valid ${element.toLowerCase()}.`
+                            : ""
+                        }
+                        error={valid["Phone Number"].showError ? true : false}
+                        onBlur={(event) => {
+                          handleBlur(event, phoneRef);
+                        }}
+                        inputProps={{ ref: phoneRef }}
+                        required
+                        size="small"
+                        name={element}
+                        id={element}
+                        value={valid["Phone Number"].value}
+                        onChange={(event) => {
+                          handleChange(event, phoneRef);
+                        }}
+                        InputProps={{ inputComponent: TextMaskCustom as any }}
+                        placeholder={element}
+                        css={{
+                          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                            border: "1px solid #2e2e2e",
+                          },
+                          margin: "0.25rem 0",
+                          padding: "0",
+                          width: mini ? "100%" : "49%",
+                        }}
+                      />
+                    );
+                  } else {
+                    return (
+                      <TextField
+                        required
+                        helperText={
+                          valid[element as keyof typeof initialState].showError
+                            ? `Please enter a valid ${element.toLowerCase()}.`
+                            : ""
+                        }
+                        error={
+                          valid[element as keyof typeof initialState].showError
+                            ? true
+                            : false
+                        }
+                        onBlur={(event) => {
+                          handleBlur(event, refs[index]);
+                        }}
+                        onChange={(event) => {
+                          handleChange(event, refs[index]);
+                        }}
+                        inputProps={{ ref: refs[index] }}
+                        key={index}
+                        name={element}
+                        id={element}
+                        size="small"
+                        css={{
+                          margin: "0.25rem 0",
+                          padding: "0",
+                          width: mini ? "100%" : "49%",
+                        }}
+                        placeholder={element}
+                      />
+                    );
+                  }
                 }
               )}
             </FormGroup>
-            <FormGroup>
-              {["2D Animator", "Camera Op", "1st AC", , "Grip/Electric"].map(
-                (element, index) => {
-                  return (
-                    <FormControlLabel
-                      name={element}
-                      id={`roleS${index}`}
+          </FormGroup>
+
+          {/* questionaire container */}
+          <FormGroup
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "space-between",
+              padding: "0 1rem",
+              marginBottom: "2rem",
+            }}
+          >
+            <FormLabel error>How did you hear about Mithin?*</FormLabel>
+            {[
+              "Social Media (Facebook, Instagram, YouTube, Vimeo, etc.)",
+              "Search Engine (Google, Yahoo, Bing, etc.)",
+              "Family, Friend, or Colleague",
+            ].map((element, index) => {
+              return (
+                <FormControlLabel
+                  name="Hear"
+                  id={`hear${index}`}
+                  value={element}
+                  key={index}
+                  label={
+                    <Typography variant="checkboxLabel">{element}</Typography>
+                  }
+                  control={
+                    <Checkbox
+                      onChange={(event) => {
+                        handleCheck(event, hearRef);
+                      }}
                       sx={{
-                        "& .MuiTypography-root": { fontSize: "0.9rem" },
+                        "& .MuiSvgIcon-root": {
+                          fontSize: "1rem",
+                        },
                       }}
-                      key={index}
-                      label={element}
-                      control={
-                        <Checkbox
-                          sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
-                        />
-                      }
-                    ></FormControlLabel>
-                  );
-                }
-              )}
+                    />
+                  }
+                ></FormControlLabel>
+              );
+            })}
+            <FormLabel
+              css={{
+                marginTop: "2rem",
+              }}
+            >
+              In what capacity are you looking to hire Mithin?
+            </FormLabel>
+            <FormGroup css={{ display: "flex", flexDirection: "row" }}>
+              <FormGroup>
+                {["Director", "Cinematographer", "Editor", "Colorist"].map(
+                  (element, index) => {
+                    return (
+                      <FormControlLabel
+                        name={element}
+                        id={`roleP${index}`}
+                        css={{ fontSize: "0.5rem" }}
+                        key={index}
+                        label={
+                          <Typography variant="checkboxLabel">
+                            {element}
+                          </Typography>
+                        }
+                        control={
+                          <Checkbox
+                            sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
+                          />
+                        }
+                      ></FormControlLabel>
+                    );
+                  }
+                )}
+              </FormGroup>
+              <FormGroup>
+                {["2D Animator", "Camera Op", "1st AC", , "Grip/Electric"].map(
+                  (element, index) => {
+                    return (
+                      <FormControlLabel
+                        name={element}
+                        id={`roleS${index}`}
+                        sx={{
+                          "& .MuiTypography-root": { fontSize: "0.9rem" },
+                        }}
+                        key={index}
+                        label={element}
+                        control={
+                          <Checkbox
+                            sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
+                          />
+                        }
+                      ></FormControlLabel>
+                    );
+                  }
+                )}
+              </FormGroup>
             </FormGroup>
           </FormGroup>
-        </FormGroup>
 
-        {/* message container */}
-        <FormGroup
-          css={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "space-between",
-            padding: "0 1rem",
-            marginBottom: "2rem",
-          }}
-        >
-          <FormLabel
+          {/* message container */}
+          <FormGroup
             css={{
-              margin: "0 0 1rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "space-between",
+              padding: "0 1rem",
+              marginBottom: "2rem",
             }}
           >
-            Your Message
-          </FormLabel>
-          <TextField
-            required
-            helperText={
-              valid["Subject"].showError ? "Please enter a valid subject." : ""
-            }
-            error={valid["Subject"].showError ? true : false}
-            onBlur={(event) => {
-              handleBlur(event, subjectRef);
-            }}
-            onChange={(event) => {
-              handleChange(event, subjectRef);
-            }}
-            inputProps={{ ref: subjectRef }}
-            name="Subject"
-            id="Subject"
-            size="small"
-            css={{
-              margin: "0 0 1rem",
-            }}
-            variant="outlined"
-            placeholder="Subject"
-          />
-          <TextField
-            required
-            helperText={
-              valid["Message"].showError ? "Please enter a valid message." : ""
-            }
-            error={valid["Message"].showError ? true : false}
-            onBlur={(event) => {
-              handleBlur(event, messageRef);
-            }}
-            onChange={(event) => {
-              handleChange(event, messageRef);
-            }}
-            inputProps={{ ref: messageRef }}
-            name="Message"
-            id="Message"
-            placeholder="Message"
-            multiline
-            rows={8}
-          />
-        </FormGroup>
+            <FormLabel
+              css={{
+                margin: "0 0 1rem",
+              }}
+            >
+              Your Message
+            </FormLabel>
+            <TextField
+              required
+              helperText={
+                valid["Subject"].showError
+                  ? "Please enter a valid subject."
+                  : ""
+              }
+              error={valid["Subject"].showError ? true : false}
+              onBlur={(event) => {
+                handleBlur(event, subjectRef);
+              }}
+              onChange={(event) => {
+                handleChange(event, subjectRef);
+              }}
+              inputProps={{ ref: subjectRef }}
+              name="Subject"
+              id="Subject"
+              size="small"
+              css={{
+                margin: "0 0 1rem",
+              }}
+              variant="outlined"
+              placeholder="Subject"
+            />
+            <TextField
+              required
+              helperText={
+                valid["Message"].showError
+                  ? "Please enter a valid message."
+                  : ""
+              }
+              error={valid["Message"].showError ? true : false}
+              onBlur={(event) => {
+                handleBlur(event, messageRef);
+              }}
+              onChange={(event) => {
+                handleChange(event, messageRef);
+              }}
+              inputProps={{ ref: messageRef }}
+              name="Message"
+              id="Message"
+              placeholder="Message"
+              multiline
+              rows={8}
+            />
+          </FormGroup>
 
-        <Button type="submit" variant="contained" css={{ margin: "0 1rem" }}>
-          Submit
-        </Button>
-      </form>
-    </Container>
+          <Button type="submit" variant="contained" css={{ margin: "0 1rem" }}>
+            Submit
+          </Button>
+        </form>
+      </Container>
+    </ThemeProvider>
   );
 }

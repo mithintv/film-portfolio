@@ -8,7 +8,7 @@ import { ProjectType } from "../lib/mysql";
 // MUI and Emotion
 import { Box, Fade, Grid, Modal, Typography } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
-import { css, keyframes } from "@emotion/react";
+import { keyframes } from "@emotion/react";
 
 type AppProps = {
   project: ProjectType;
@@ -18,7 +18,6 @@ type AppProps = {
 };
 
 export default function Project(props: AppProps) {
-  console.log(props.mobile);
   const containerRef = React.useRef(null);
   const [open, setOpen] = useState<true | false>(false);
   const [details, setDetails] = useState<true | false>(false);
@@ -147,8 +146,8 @@ export default function Project(props: AppProps) {
           >
             <AspectRatio
               sx={{
-                width: 300,
-                // maxWidth: "1400px",
+                width: props.mobile ? "100%" : "75%",
+                maxWidth: "1400px",
               }}
             >
               <ReactPlayer
