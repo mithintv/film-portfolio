@@ -7,8 +7,8 @@ import { ProjectType } from "../lib/mysql";
 
 // MUI and Emotion
 import { Box, Fade, Grid, Modal, Typography } from "@mui/material";
-import { AspectRatio } from "@mui/joy";
-import { keyframes } from "@emotion/react";
+import AspectRatio from "@mui/joy/AspectRatio";
+import { css, keyframes } from "@emotion/react";
 
 type AppProps = {
   project: ProjectType;
@@ -110,9 +110,9 @@ export default function Project(props: AppProps) {
               transform: details ? "scale(1.1)" : "scale(1.0)",
               transition: "transform 0.5s ease",
             }}
-            sizes="(max-width: 768px) 90vw,
-            (max-width: 1200px) 50vw,
-            33vw"
+            // sizes="(max-width: 768px) 90vw,
+            // (max-width: 1200px) 50vw,
+            // 33vw"
             fill
             src={`/images/${props.project.localThumbnail}`}
             alt={props.project.title}
@@ -146,11 +146,9 @@ export default function Project(props: AppProps) {
             }}
           >
             <AspectRatio
-              css={{
-                border: "0px",
-                borderRadius: "0px",
-                width: props.mobile ? "100%" : "75%",
-                maxWidth: "1400px",
+              sx={{
+                width: 300,
+                // maxWidth: "1400px",
               }}
             >
               <ReactPlayer

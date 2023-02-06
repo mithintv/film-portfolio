@@ -5,12 +5,10 @@ import {
   Button,
   Checkbox,
   Container,
-  FormControl,
   FormControlLabel,
   FormGroup,
   FormLabel,
   TextField,
-  OutlinedInput,
   Typography,
 } from "@mui/material";
 import { IMaskInput } from "react-imask";
@@ -19,14 +17,33 @@ interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
 }
+interface Input {
+  value: string | string[];
+  touched: boolean;
+  valid: boolean;
+  showError: boolean;
+  firstBlur: boolean;
+}
+
+type State = {
+  "First Name": Input;
+  "Last Name": Input;
+  Email: Input;
+  "Phone Number": Input;
+  Subject: Input;
+  Message: Input;
+  Hear: Input;
+  Role: Input;
+};
 
 type ActionType = {
-  type: "blur" | "change" | "submit" | "reset";
+  type: "blur" | "change" | "check" | "submit" | "reset";
   input: {
     name: keyof typeof initialState;
     value?: string;
     touched?: boolean;
     valid?: boolean;
+    selections?: [];
   };
 };
 
@@ -54,7 +71,7 @@ const TextMaskCustom = React.forwardRef<ReactElement, CustomProps>(
   }
 );
 
-const initialState = {
+const initialState: State = {
   "First Name": {
     value: "",
     touched: false,
@@ -83,20 +100,6 @@ const initialState = {
     showError: false,
     firstBlur: false,
   },
-  Hear: {
-    value: "",
-    touched: false,
-    valid: false,
-    showError: false,
-    firstBlur: false,
-  },
-  Role: {
-    value: "",
-    touched: false,
-    valid: false,
-    showError: false,
-    firstBlur: false,
-  },
   Subject: {
     value: "",
     touched: false,
@@ -110,6 +113,30 @@ const initialState = {
     valid: false,
     showError: false,
     firstBlur: false,
+  },
+  Hear: {
+    value: [],
+    valid: false,
+    showError: false,
+    firstBlur: false,
+    touched: false,
+    // selections: [
+    //   {
+    //     value: "",
+    //   },
+    // ],
+  },
+  Role: {
+    value: [],
+    valid: false,
+    showError: false,
+    firstBlur: false,
+    touched: false,
+    // selections: [
+    //   {
+    //     value: "",
+    //   },
+    // ],
   },
 };
 
@@ -139,16 +166,32 @@ const contactReducer = (state: typeof initialState, action: ActionType) => {
           firstBlur: state[action.input.name].firstBlur,
         },
       };
+    case "check": {
+      const values = [...state[action.input.name].value];
+      values.push(action.input.value!);
+      return {
+        ...state,
+        [action.input.name!]: {
+          value: values,
+          touched: true,
+          firstBlur: true,
+          showError: state[action.input.name].firstBlur
+            ? action.input.touched && !action.input.valid
+            : false,
+          valid: true,
+        },
+      };
+    }
     case "submit": {
       let newObj: typeof initialState = { ...state };
-      for (const key in newObj) {
-        newObj[key as keyof typeof newObj] = {
-          ...newObj[key as keyof typeof newObj],
+      for (const key in state) {
+        state[key as keyof typeof state] = {
+          ...state[key as keyof typeof state],
           touched: true,
-          showError: true && !newObj[key as keyof typeof newObj].valid,
+          showError: true && !state[key as keyof typeof state].valid,
         };
       }
-      return newObj;
+      return { ...state };
     }
     case "reset":
       return initialState;
@@ -159,7 +202,6 @@ const contactReducer = (state: typeof initialState, action: ActionType) => {
 
 export default function Contact({ mini }: { mini: boolean }) {
   const [valid, dispatchValid] = useReducer(contactReducer, initialState);
-  const [value, setValues] = React.useState<string>("");
   const formRef = useRef<HTMLFormElement>(null);
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -210,8 +252,43 @@ export default function Contact({ mini }: { mini: boolean }) {
     });
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValues(event.target.value);
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    inputRef: React.RefObject<HTMLInputElement>
+  ) => {
+    console.log(event.target.value, inputRef);
+    dispatchValid({
+      type: "change",
+      input: {
+        name: inputRef!.current!.name as keyof typeof initialState,
+        value: event.target.value,
+        touched: true,
+        valid: isValid(inputRef),
+      },
+    });
+  };
+
+  const handleCheck = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    inputRef: React.RefObject<HTMLOptionsCollection>
+  ) => {
+    console.log(
+      event.target.checked,
+      event.target.name,
+      event.target.value,
+      inputRef
+    );
+    if (event.target.checked) {
+      dispatchValid({
+        type: "check",
+        input: {
+          name: event.target.name as keyof typeof initialState,
+          value: event.target.value,
+          // category: event.target.id as keyof typeof initialState,
+        },
+      });
+    } else {
+    }
   };
 
   const submitHandler = (event: React.FormEvent) => {
@@ -280,8 +357,10 @@ export default function Contact({ mini }: { mini: boolean }) {
                       size="small"
                       name={element}
                       id={element}
-                      value={value}
-                      onChange={handleChange}
+                      value={valid["Phone Number"].value}
+                      onChange={(event) => {
+                        handleChange(event, phoneRef);
+                      }}
                       InputProps={{ inputComponent: TextMaskCustom as any }}
                       placeholder={element}
                       css={{
@@ -310,6 +389,9 @@ export default function Contact({ mini }: { mini: boolean }) {
                       }
                       onBlur={(event) => {
                         handleBlur(event, refs[index]);
+                      }}
+                      onChange={(event) => {
+                        handleChange(event, refs[index]);
                       }}
                       inputProps={{ ref: refs[index] }}
                       key={index}
@@ -341,7 +423,7 @@ export default function Contact({ mini }: { mini: boolean }) {
             marginBottom: "2rem",
           }}
         >
-          <FormLabel>How did you hear about Mithin?</FormLabel>
+          <FormLabel error>How did you hear about Mithin?*</FormLabel>
           {[
             "Social Media (Facebook, Instagram, YouTube, Vimeo, etc.)",
             "Search Engine (Google, Yahoo, Bing, etc.)",
@@ -349,14 +431,18 @@ export default function Contact({ mini }: { mini: boolean }) {
           ].map((element, index) => {
             return (
               <FormControlLabel
-                name={element}
+                name="Hear"
                 id={`hear${index}`}
+                value={element}
                 key={index}
                 label={
                   <Typography variant="checkboxLabel">{element}</Typography>
                 }
                 control={
                   <Checkbox
+                    onChange={(event) => {
+                      handleCheck(event, hearRef);
+                    }}
                     sx={{
                       "& .MuiSvgIcon-root": {
                         fontSize: "1rem",
@@ -451,6 +537,9 @@ export default function Contact({ mini }: { mini: boolean }) {
             onBlur={(event) => {
               handleBlur(event, subjectRef);
             }}
+            onChange={(event) => {
+              handleChange(event, subjectRef);
+            }}
             inputProps={{ ref: subjectRef }}
             name="Subject"
             id="Subject"
@@ -469,6 +558,9 @@ export default function Contact({ mini }: { mini: boolean }) {
             error={valid["Message"].showError ? true : false}
             onBlur={(event) => {
               handleBlur(event, messageRef);
+            }}
+            onChange={(event) => {
+              handleChange(event, messageRef);
             }}
             inputProps={{ ref: messageRef }}
             name="Message"
