@@ -8,8 +8,9 @@ export default function Heading({
   return (
     <h2
       css={css({
+        fontSize: "1.25rem",
         textAlign: "center",
-        margin: "3rem 0 0",
+        margin: "2rem 0",
       })}
     >
       {title}

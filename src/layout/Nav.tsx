@@ -1,26 +1,31 @@
 import { css } from "@emotion/react";
 
-export default function Nav({ children }: { children: React.ReactNode }) {
+type AppProps = {
+  mobile: boolean;
+  children: React.ReactNode;
+};
+
+export default function Nav({ mobile, children }: AppProps) {
   return (
     <nav
       css={css({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "100vw",
-        backgroundColor: "#3E595C",
+        width: "100%",
+        margin: "0 auto",
       })}
     >
       <div
         css={css({
           display: "flex",
-          flexDirection: "row",
+          flexDirection: mobile ? "column" : "row",
           justifyContent: "space-between",
           alignItems: "center",
-          margin: "0",
-          padding: "2rem 0",
-          width: "100vw",
-          maxWidth: "1000px",
+          margin: "0 auto",
+          padding: "2rem 2rem",
+          width: "100%",
+          maxWidth: "1400px",
         })}
       >
         {children}

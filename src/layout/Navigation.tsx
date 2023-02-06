@@ -1,51 +1,41 @@
-import Link from "next/link";
-import { useState } from "react";
-
-import useBreakpoint from "use-breakpoint";
 import Nav from "./Nav";
-import Title from "./Header";
+import Header from "./Header";
 import MobileNav from "./MobileNav";
 import Links from "./Links";
 
 import { css } from "@emotion/react";
-import {
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-
-const breakpoints = { mobile: 0, tablet: 768, desktop: 1024 };
+import { List } from "@mui/material";
 
 export default function Navigation({
+  desktop,
+  tablet,
+  mobile,
   children,
 }: {
+  desktop: boolean;
+  tablet: boolean;
+  mobile: boolean;
   children: React.ReactNode;
 }) {
-  const { breakpoint } = useBreakpoint(breakpoints, "mobile", false);
-
   return (
     <>
-      {breakpoint === "desktop" && (
-        <Nav>
-          <Title />
+      {desktop && !tablet && (
+        <Nav mobile={false}>
+          <Header mobile={false} />
           <List
             css={css({
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-evenly",
-              margin: "1.5rem 0rem",
+              margin: "0",
             })}
           >
-            <Links />
+            <Links onClose={() => {}} tablet={false} mobile={false} />
           </List>
         </Nav>
       )}
-
-      {breakpoint !== "desktop" && <MobileNav />}
+      {tablet && !mobile && <MobileNav tablet={true} mobile={false} />}
+      {mobile && <MobileNav mobile={true} tablet={false} />}
       <main
         css={css({
           display: "flex",

@@ -1,13 +1,13 @@
 import { GetStaticProps } from "next";
-import Projects from "../src/layout/Projects";
+import ProjectList from "../src/layout/ProjectLIst";
 import Heading from "../src/layout/Heading";
-import { getProjects, ProjectType } from "../src/lib/mysql";
+import { getProjects, ProjectsType } from "../src/lib/mysql";
 
-export default function Narrative({ projects }: ProjectType) {
+export default function Narrative({ projects }: ProjectsType) {
   return (
     <div>
       <Heading title="Narrative" />
-      <Projects projects={projects} />
+      <ProjectList projects={projects} />
     </div>
   );
 }

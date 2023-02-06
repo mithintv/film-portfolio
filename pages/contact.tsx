@@ -1,133 +1,271 @@
+import * as React from "react";
 import Heading from "../src/layout/Heading";
 
 import {
+  Button,
   Checkbox,
   Container,
+  FormControl,
   FormControlLabel,
   FormGroup,
   FormLabel,
   TextField,
+  OutlinedInput,
+  Typography,
 } from "@mui/material";
 import { css } from "@emotion/react";
+import Input from "@mui/material/Input";
+import { IMaskInput } from "react-imask";
+import { ReactElement } from "react-imask/dist/mixin";
 
-export default function Contact() {
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
+
+const TextMaskCustom = React.forwardRef<ReactElement, CustomProps>(
+  function TextMaskCustom(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+      <IMaskInput
+        {...other}
+        mask="(#00) 000-0000"
+        definitions={{
+          "#": /[1-9]/,
+        }}
+        inputRef={ref}
+        onAccept={(value: any) =>
+          onChange({ target: { name: props.name, value } })
+        }
+        overwrite
+      />
+    );
+  }
+);
+
+export default function Contact({ mini }: { mini: boolean }) {
+  const [value, setValues] = React.useState<string>("");
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues(event.target.value);
+  };
+
   return (
-    <Container maxWidth="sm">
+    <Container
+      maxWidth="sm"
+      css={{
+        margin: "0 0 2rem 0",
+      }}
+    >
       <Heading title="Contact" />
-
-      <FormGroup>
-        {/* Contact Info container */}
-        <Container
-          css={css({
+      {/* Form Container */}
+      <form
+        css={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          margin: "0 0",
+        }}
+      >
+        {/* contact container */}
+        <FormGroup
+          css={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "space-between",
-            margin: "2rem 0",
-          })}
+            justifyContent: "start",
+            padding: "0 1rem",
+          }}
         >
           <FormLabel
-            css={css({
-              color: "#d7f0f5",
-            })}
+            css={{
+              "&.Mui-focused": {
+                color: "#2e2e2e",
+              },
+            }}
           >
             Who are you?
           </FormLabel>
-          <TextField
-            css={css({
-              margin: "0.5rem 0",
-            })}
-            placeholder="First Name"
-          />
-          <TextField
-            css={css({
-              margin: "0.5rem 0",
-            })}
-            placeholder="Last Name"
-          />
+          {/* input container */}
+          <FormGroup
+            css={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignContent: "center",
+              padding: "0",
+              marginBottom: "2em",
+            }}
+          >
+            {["First Name", "Last Name", "Email", "Phone Number"].map(
+              (element, index) => {
+                if (index === 3) {
+                  return (
+                    <OutlinedInput
+                      key={index}
+                      size="small"
+                      name={element}
+                      id={element}
+                      value={value}
+                      onChange={handleChange}
+                      inputComponent={TextMaskCustom as any}
+                      placeholder="Phone Number"
+                      css={{
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "1px solid #2e2e2e",
+                        },
+                        margin: "0.25rem 0",
+                        padding: "0",
+                        width: mini ? "100%" : "49%",
+                      }}
+                    />
+                  );
+                } else {
+                  return (
+                    <OutlinedInput
+                      key={index}
+                      size="small"
+                      css={{
+                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                          border: "1px solid #2e2e2e",
+                        },
+                        margin: "0.25rem 0",
+                        padding: "0",
+                        width: mini ? "100%" : "49%",
+                      }}
+                      placeholder={element}
+                    />
+                  );
+                }
+              }
+            )}
+          </FormGroup>
+        </FormGroup>
 
-          <TextField
-            css={css({
-              margin: "0.5rem 0",
-            })}
-            placeholder="Email"
-          />
-          <TextField
-            css={css({
-              margin: "0.5rem 0",
-            })}
-            placeholder="Phone Number"
-          />
-        </Container>
-
-        {/* Questionaire container */}
-        <Container
-          css={css({
+        {/* questionaire container */}
+        <FormGroup
+          css={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            margin: "2rem 0",
-          })}
+            alignItems: "space-between",
+            padding: "0 1rem",
+            marginBottom: "2rem",
+          }}
         >
           <FormLabel>How did you hear about Mithin?</FormLabel>
-          <FormControlLabel
-            label="Social Media (Facebook, Instagram, YouTube, Vimeo, etc.)"
-            control={<Checkbox />}
-          ></FormControlLabel>
-          <FormControlLabel
-            label="Search Engine (Google, Yahoo, Bing, etc.)"
-            control={<Checkbox />}
-          ></FormControlLabel>
-          <FormControlLabel
-            label="Family, Friend, or Colleague"
-            control={<Checkbox />}
-          ></FormControlLabel>
+          {[
+            "Social Media (Facebook, Instagram, YouTube, Vimeo, etc.)",
+            "Search Engine (Google, Yahoo, Bing, etc.)",
+            "Family, Friend, or Colleague",
+          ].map((element, index) => {
+            return (
+              <FormControlLabel
+                // sx={{
+                //   "& .MuiTypography-root": { fontSize: "0.9rem" },
+                // }}
+                key={index}
+                label={
+                  <Typography variant="checkboxLabel">{element}</Typography>
+                }
+                control={
+                  <Checkbox
+                    sx={{
+                      "& .MuiSvgIcon-root": {
+                        fontSize: "1rem",
+                      },
+                    }}
+                  />
+                }
+              ></FormControlLabel>
+            );
+          })}
           <FormLabel
-            css={css({
+            css={{
               marginTop: "2rem",
-            })}
+            }}
           >
             In what capacity are you looking to hire Mithin?
           </FormLabel>
-          <FormControlLabel
-            label="Director"
-            control={<Checkbox />}
-          ></FormControlLabel>
-          <FormControlLabel
-            label="Cinematographer"
-            control={<Checkbox />}
-          ></FormControlLabel>
-          <FormControlLabel
-            label="Colorist"
-            control={<Checkbox />}
-          ></FormControlLabel>
-        </Container>
+          <FormGroup css={{ display: "flex", flexDirection: "row" }}>
+            <FormGroup>
+              {["Director", "Cinematographer", "Editor", "Colorist"].map(
+                (element, index) => {
+                  return (
+                    <FormControlLabel
+                      css={{ fontSize: "0.5rem" }}
+                      key={index}
+                      label={
+                        <Typography variant="checkboxLabel">
+                          {element}
+                        </Typography>
+                      }
+                      control={
+                        <Checkbox
+                          sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
+                        />
+                      }
+                    ></FormControlLabel>
+                  );
+                }
+              )}
+            </FormGroup>
+            <FormGroup>
+              {["2D Animator", "Camera Op", "1st AC", , "Grip/Electric"].map(
+                (element, index) => {
+                  return (
+                    <FormControlLabel
+                      sx={{
+                        "& .MuiTypography-root": { fontSize: "0.9rem" },
+                      }}
+                      key={index}
+                      label={element}
+                      control={
+                        <Checkbox
+                          sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
+                        />
+                      }
+                    ></FormControlLabel>
+                  );
+                }
+              )}
+            </FormGroup>
+          </FormGroup>
+        </FormGroup>
 
-        {/* Message container */}
-        <Container
-          css={css({
+        {/* message container */}
+        <FormGroup
+          css={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            margin: "2rem 0",
-          })}
+            alignItems: "space-between",
+            padding: "0 1rem",
+            marginBottom: "2rem",
+          }}
         >
           <FormLabel
-            css={css({
+            css={{
               margin: "0 0 1rem",
-            })}
+            }}
           >
             Your Message
           </FormLabel>
           <TextField
-            css={css({
-              margin: "0 0 2rem",
-            })}
-            variant="standard"
+            required
+            size="small"
+            css={{
+              margin: "0 0 1rem",
+            }}
+            variant="outlined"
             placeholder="Subject"
           />
           <TextField placeholder="Message" multiline rows={8} />
-        </Container>
-      </FormGroup>
+        </FormGroup>
+
+        <Button type="submit" variant="contained" css={{ margin: "0 1rem" }}>
+          Submit
+        </Button>
+      </form>
     </Container>
   );
 }

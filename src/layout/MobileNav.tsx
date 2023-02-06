@@ -1,55 +1,66 @@
-import Link from "next/link";
 import { useState } from "react";
 
 import Nav from "./Nav";
-import Title from "./Header";
+import Header from "./Header";
 import Links from "./Links";
 
 import { css } from "@emotion/react";
-import {
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { SwipeableDrawer } from "@mui/material";
 import { IoMenu } from "react-icons/io5";
 
-export default function MobileNav() {
-  const nav = [
-    "narrative",
-    "music video",
-    "commercial",
-    "nonfiction",
-    "about",
-    "contact",
-  ];
+type AppProps = {
+  mobile: boolean;
+  tablet: boolean;
+};
 
+export default function MobileNav({ mobile, tablet }: AppProps) {
   const [drawer, setDrawer] = useState(false);
   const toggleDrawer = () => {
-    setDrawer((prevState) => {
-      return !prevState;
-    });
+    if (drawer) {
+      setTimeout(() => {
+        setDrawer((prevState) => {
+          return !prevState;
+        });
+      }, 250);
+    } else
+      setDrawer((prevState) => {
+        return !prevState;
+      });
   };
 
   return (
     <>
-      <Nav>
-        <Title />
-        <IoMenu
-          css={css({
-            fontSize: "2.5rem",
-            cursor: "pointer",
-            marginRight: "2rem",
-          })}
-          onClick={toggleDrawer}
-        />
+      <Nav mobile={mobile}>
+        {mobile && (
+          <IoMenu
+            css={css({
+              fontSize: "2rem",
+              cursor: "pointer",
+              margin: "0 0 1rem 0",
+            })}
+            onClick={toggleDrawer}
+          />
+        )}
+        <Header mobile={mobile} />
+        {!mobile && (
+          <IoMenu
+            css={css({
+              fontSize: "2rem",
+              cursor: "pointer",
+              margin: "0 0.5rem",
+            })}
+            onClick={toggleDrawer}
+          />
+        )}
       </Nav>
-      <Drawer anchor={"right"} open={drawer} onClose={toggleDrawer}>
-        <Links />
-      </Drawer>
+      <SwipeableDrawer
+        anchor={"top"}
+        open={drawer}
+        onOpen={toggleDrawer}
+        onClose={toggleDrawer}
+      >
+        <Links onClose={toggleDrawer} mobile={mobile} tablet={tablet} />
+      </SwipeableDrawer>
     </>
   );
 }

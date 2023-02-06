@@ -1,34 +1,49 @@
 html {
   overflow-y: scroll;
+  scroll-behavior: smooth;
 }
 
 html,
 body {
   padding: 0;
-  margin: 0;
+  margin: auto;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #83a3a9;
-  color: #d7f0f5;
+  background-color: #fff;
+  color: #2e2e2e;
 }
 
 a {
-  color: #d7f0f5;
+  color: #2e2e2e;
   text-decoration: none;
 }
 
 p {
-  color: #d7f0f5;
+  color: #2e2e2e;
 }
 
 * {
   box-sizing: border-box;
 }
 
-.MuiFormLabel-root {
-  color: #d7f0f5;
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
 }
 
-.MuiDrawer-paper {
-  background-color: #83a3a9;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(150, 150, 150);
+  border: 2px solid #fff;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(125, 125, 125);
 }
