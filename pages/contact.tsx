@@ -13,11 +13,8 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
-import { css } from "@emotion/react";
-import Input from "@mui/material/Input";
 import { IMaskInput } from "react-imask";
 import { ReactElement } from "react-imask/dist/mixin";
-
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
@@ -27,9 +24,9 @@ type ActionType = {
   type: "blur" | "change" | "submit" | "reset";
   input: {
     name: keyof typeof initialState;
-    value: string;
-    touched: boolean;
-    valid: boolean;
+    value?: string;
+    touched?: boolean;
+    valid?: boolean;
   };
 };
 
@@ -39,7 +36,12 @@ const TextMaskCustom = React.forwardRef<ReactElement, CustomProps>(
     return (
       <IMaskInput
         {...other}
-        mask="(#00) 000-0000"
+        mask={[
+          { mask: "(000) 000 0000" },
+          { mask: "+0 (000) 000-0000" },
+          { mask: "+00 (000) 000-0000" },
+          { mask: "+000 (000) 000-0000" },
+        ]}
         definitions={{
           "#": /[1-9]/,
         }}
@@ -47,63 +49,62 @@ const TextMaskCustom = React.forwardRef<ReactElement, CustomProps>(
         onAccept={(value: any) =>
           onChange({ target: { name: props.name, value } })
         }
-        overwrite
       />
     );
   }
 );
 
 const initialState = {
-  firstName: {
+  "First Name": {
     value: "",
     touched: false,
     valid: false,
     showError: false,
     firstBlur: false,
   },
-  lastName: {
+  "Last Name": {
     value: "",
     touched: false,
     valid: false,
     showError: false,
     firstBlur: false,
   },
-  email: {
+  Email: {
     value: "",
     touched: false,
     valid: false,
     showError: false,
     firstBlur: false,
   },
-  phoneNumber: {
+  "Phone Number": {
     value: "",
     touched: false,
     valid: false,
     showError: false,
     firstBlur: false,
   },
-  hear: {
+  Hear: {
     value: "",
     touched: false,
     valid: false,
     showError: false,
     firstBlur: false,
   },
-  role: {
+  Role: {
     value: "",
     touched: false,
     valid: false,
     showError: false,
     firstBlur: false,
   },
-  subject: {
+  Subject: {
     value: "",
     touched: false,
     valid: false,
     showError: false,
     firstBlur: false,
   },
-  message: {
+  Message: {
     value: "",
     touched: false,
     valid: false,
@@ -171,17 +172,42 @@ export default function Contact({ mini }: { mini: boolean }) {
 
   const refs = [firstNameRef, lastNameRef, emailRef, phoneRef];
 
-  const isValid = (inputRef: React.RefObject<HTMLInputElement> | null) => {
-    if (inputRef?.current?.name === "email") {
+  const isValid = (inputRef: React.RefObject<HTMLInputElement>) => {
+    if (inputRef?.current?.name === "Email") {
       const isNotEmpty = inputRef.current.value.trim() !== "";
       const emailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
         inputRef.current.value
       );
       return isNotEmpty && emailValid;
-    } else if (inputRef?.current?.name === "name") {
-      const atLeastTwo = inputRef.current.value.trim().length >= 2;
+    } else if (inputRef?.current?.name === "Phone Number") {
+      const isNotEmpty = inputRef.current.value.trim() !== "";
+      const phoneValid =
+        /^(\+\d{1,3}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/i.test(
+          inputRef.current.value
+        );
+      return isNotEmpty && phoneValid;
+    } else if (
+      ["First Name", "Last Name", "Subject", "Message"].includes(
+        inputRef?.current?.name as keyof typeof initialState
+      )
+    ) {
+      const atLeastTwo = inputRef!.current!.value.trim().length >= 2;
       return atLeastTwo;
     } else return inputRef?.current?.value.trim() !== "";
+  };
+
+  const handleBlur = (
+    event: React.FocusEvent,
+    inputRef: React.RefObject<HTMLInputElement>
+  ) => {
+    dispatchValid({
+      type: "blur",
+      input: {
+        name: inputRef!.current!.name as keyof typeof initialState,
+        touched: true,
+        valid: isValid(inputRef),
+      },
+    });
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -238,16 +264,25 @@ export default function Contact({ mini }: { mini: boolean }) {
               (element, index) => {
                 if (index === 3) {
                   return (
-                    <OutlinedInput
-                      ref={phoneRef}
-                      required
+                    <TextField
                       key={index}
+                      helperText={
+                        valid["Phone Number"].showError
+                          ? `Please enter a valid ${element.toLowerCase()}.`
+                          : ""
+                      }
+                      error={valid["Phone Number"].showError ? true : false}
+                      onBlur={(event) => {
+                        handleBlur(event, phoneRef);
+                      }}
+                      inputProps={{ ref: phoneRef }}
+                      required
                       size="small"
                       name={element}
                       id={element}
                       value={value}
                       onChange={handleChange}
-                      inputComponent={TextMaskCustom as any}
+                      InputProps={{ inputComponent: TextMaskCustom as any }}
                       placeholder={element}
                       css={{
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -261,17 +296,27 @@ export default function Contact({ mini }: { mini: boolean }) {
                   );
                 } else {
                   return (
-                    <OutlinedInput
+                    <TextField
                       required
-                      ref={refs[index]}
+                      helperText={
+                        valid[element as keyof typeof initialState].showError
+                          ? `Please enter a valid ${element.toLowerCase()}.`
+                          : ""
+                      }
+                      error={
+                        valid[element as keyof typeof initialState].showError
+                          ? true
+                          : false
+                      }
+                      onBlur={(event) => {
+                        handleBlur(event, refs[index]);
+                      }}
+                      inputProps={{ ref: refs[index] }}
                       key={index}
                       name={element}
                       id={element}
                       size="small"
                       css={{
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          border: "1px solid #2e2e2e",
-                        },
                         margin: "0.25rem 0",
                         padding: "0",
                         width: mini ? "100%" : "49%",
@@ -398,7 +443,15 @@ export default function Contact({ mini }: { mini: boolean }) {
             Your Message
           </FormLabel>
           <TextField
-            ref={subjectRef}
+            required
+            helperText={
+              valid["Subject"].showError ? "Please enter a valid subject." : ""
+            }
+            error={valid["Subject"].showError ? true : false}
+            onBlur={(event) => {
+              handleBlur(event, subjectRef);
+            }}
+            inputProps={{ ref: subjectRef }}
             name="Subject"
             id="Subject"
             size="small"
@@ -409,7 +462,15 @@ export default function Contact({ mini }: { mini: boolean }) {
             placeholder="Subject"
           />
           <TextField
-            ref={messageRef}
+            required
+            helperText={
+              valid["Message"].showError ? "Please enter a valid message." : ""
+            }
+            error={valid["Message"].showError ? true : false}
+            onBlur={(event) => {
+              handleBlur(event, messageRef);
+            }}
+            inputProps={{ ref: messageRef }}
             name="Message"
             id="Message"
             placeholder="Message"

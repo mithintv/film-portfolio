@@ -19,7 +19,6 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
   ];
 
   const router = useRouter();
-  console.log(router.route);
 
   const underlineAnimation: {} | undefined =
     tablet || mobile

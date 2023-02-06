@@ -14,9 +14,11 @@ declare module "@mui/material/styles" {
 
   interface TypographyVariants {
     checkboxLabel: React.CSSProperties;
+    inputError: React.CSSProperties;
   }
   interface TypographyVariantsOptions {
     checkboxLabel?: React.CSSProperties;
+    inputError?: React.CSSProperties;
   }
 }
 
@@ -29,6 +31,7 @@ declare module "@mui/material/Button" {
 declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     checkboxLabel: true;
+    inputError: true;
   }
 }
 
@@ -41,6 +44,9 @@ export const theme = createTheme({
   typography: {
     checkboxLabel: {
       fontSize: "0.9rem",
+    },
+    inputError: {
+      color: "#ff1744",
     },
   },
   palette: {
