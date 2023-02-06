@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useReducer, useRef } from "react";
 import Heading from "../src/layout/Heading";
 
 import {
@@ -23,6 +23,16 @@ interface CustomProps {
   name: string;
 }
 
+type ActionType = {
+  type: "blur" | "change" | "submit" | "reset";
+  input: {
+    name: keyof typeof initialState;
+    value: string;
+    touched: boolean;
+    valid: boolean;
+  };
+};
+
 const TextMaskCustom = React.forwardRef<ReactElement, CustomProps>(
   function TextMaskCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -43,11 +53,145 @@ const TextMaskCustom = React.forwardRef<ReactElement, CustomProps>(
   }
 );
 
+const initialState = {
+  firstName: {
+    value: "",
+    touched: false,
+    valid: false,
+    showError: false,
+    firstBlur: false,
+  },
+  lastName: {
+    value: "",
+    touched: false,
+    valid: false,
+    showError: false,
+    firstBlur: false,
+  },
+  email: {
+    value: "",
+    touched: false,
+    valid: false,
+    showError: false,
+    firstBlur: false,
+  },
+  phoneNumber: {
+    value: "",
+    touched: false,
+    valid: false,
+    showError: false,
+    firstBlur: false,
+  },
+  hear: {
+    value: "",
+    touched: false,
+    valid: false,
+    showError: false,
+    firstBlur: false,
+  },
+  role: {
+    value: "",
+    touched: false,
+    valid: false,
+    showError: false,
+    firstBlur: false,
+  },
+  subject: {
+    value: "",
+    touched: false,
+    valid: false,
+    showError: false,
+    firstBlur: false,
+  },
+  message: {
+    value: "",
+    touched: false,
+    valid: false,
+    showError: false,
+    firstBlur: false,
+  },
+};
+
+const contactReducer = (state: typeof initialState, action: ActionType) => {
+  switch (action.type) {
+    case "blur":
+      return {
+        ...state,
+        [action.input.name]: {
+          ...state[action.input.name],
+          touched: action.input.touched,
+          valid: action.input.valid,
+          showError: action.input.touched && !action.input.valid,
+          firstBlur: true,
+        },
+      };
+    case "change":
+      return {
+        ...state,
+        [action.input.name]: {
+          value: action.input.value,
+          touched: action.input.touched,
+          valid: action.input.valid,
+          showError: state[action.input.name].firstBlur
+            ? action.input.touched && !action.input.valid
+            : false,
+          firstBlur: state[action.input.name].firstBlur,
+        },
+      };
+    case "submit": {
+      let newObj: typeof initialState = { ...state };
+      for (const key in newObj) {
+        newObj[key as keyof typeof newObj] = {
+          ...newObj[key as keyof typeof newObj],
+          touched: true,
+          showError: true && !newObj[key as keyof typeof newObj].valid,
+        };
+      }
+      return newObj;
+    }
+    case "reset":
+      return initialState;
+    default:
+      return initialState;
+  }
+};
+
 export default function Contact({ mini }: { mini: boolean }) {
+  const [valid, dispatchValid] = useReducer(contactReducer, initialState);
   const [value, setValues] = React.useState<string>("");
+  const formRef = useRef<HTMLFormElement>(null);
+  const firstNameRef = useRef<HTMLInputElement>(null);
+  const lastNameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const hearRef = useRef<HTMLOptionsCollection>(null);
+  const roleRef = useRef<HTMLOptionsCollection>(null);
+  const subjectRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLInputElement>(null);
+
+  const refs = [firstNameRef, lastNameRef, emailRef, phoneRef];
+
+  const isValid = (inputRef: React.RefObject<HTMLInputElement> | null) => {
+    if (inputRef?.current?.name === "email") {
+      const isNotEmpty = inputRef.current.value.trim() !== "";
+      const emailValid = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
+        inputRef.current.value
+      );
+      return isNotEmpty && emailValid;
+    } else if (inputRef?.current?.name === "name") {
+      const atLeastTwo = inputRef.current.value.trim().length >= 2;
+      return atLeastTwo;
+    } else return inputRef?.current?.value.trim() !== "";
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues(event.target.value);
+  };
+
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    console.log(formRef);
   };
 
   return (
@@ -60,6 +204,8 @@ export default function Contact({ mini }: { mini: boolean }) {
       <Heading title="Contact" />
       {/* Form Container */}
       <form
+        ref={formRef}
+        onSubmit={submitHandler}
         css={{
           display: "flex",
           flexDirection: "column",
@@ -76,15 +222,7 @@ export default function Contact({ mini }: { mini: boolean }) {
             padding: "0 1rem",
           }}
         >
-          <FormLabel
-            css={{
-              "&.Mui-focused": {
-                color: "#2e2e2e",
-              },
-            }}
-          >
-            Who are you?
-          </FormLabel>
+          <FormLabel>Who are you?</FormLabel>
           {/* input container */}
           <FormGroup
             css={{
@@ -101,6 +239,8 @@ export default function Contact({ mini }: { mini: boolean }) {
                 if (index === 3) {
                   return (
                     <OutlinedInput
+                      ref={phoneRef}
+                      required
                       key={index}
                       size="small"
                       name={element}
@@ -108,7 +248,7 @@ export default function Contact({ mini }: { mini: boolean }) {
                       value={value}
                       onChange={handleChange}
                       inputComponent={TextMaskCustom as any}
-                      placeholder="Phone Number"
+                      placeholder={element}
                       css={{
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
                           border: "1px solid #2e2e2e",
@@ -122,7 +262,11 @@ export default function Contact({ mini }: { mini: boolean }) {
                 } else {
                   return (
                     <OutlinedInput
+                      required
+                      ref={refs[index]}
                       key={index}
+                      name={element}
+                      id={element}
                       size="small"
                       css={{
                         "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -160,9 +304,8 @@ export default function Contact({ mini }: { mini: boolean }) {
           ].map((element, index) => {
             return (
               <FormControlLabel
-                // sx={{
-                //   "& .MuiTypography-root": { fontSize: "0.9rem" },
-                // }}
+                name={element}
+                id={`hear${index}`}
                 key={index}
                 label={
                   <Typography variant="checkboxLabel">{element}</Typography>
@@ -192,6 +335,8 @@ export default function Contact({ mini }: { mini: boolean }) {
                 (element, index) => {
                   return (
                     <FormControlLabel
+                      name={element}
+                      id={`roleP${index}`}
                       css={{ fontSize: "0.5rem" }}
                       key={index}
                       label={
@@ -214,6 +359,8 @@ export default function Contact({ mini }: { mini: boolean }) {
                 (element, index) => {
                   return (
                     <FormControlLabel
+                      name={element}
+                      id={`roleS${index}`}
                       sx={{
                         "& .MuiTypography-root": { fontSize: "0.9rem" },
                       }}
@@ -251,7 +398,9 @@ export default function Contact({ mini }: { mini: boolean }) {
             Your Message
           </FormLabel>
           <TextField
-            required
+            ref={subjectRef}
+            name="Subject"
+            id="Subject"
             size="small"
             css={{
               margin: "0 0 1rem",
@@ -259,7 +408,14 @@ export default function Contact({ mini }: { mini: boolean }) {
             variant="outlined"
             placeholder="Subject"
           />
-          <TextField placeholder="Message" multiline rows={8} />
+          <TextField
+            ref={messageRef}
+            name="Message"
+            id="Message"
+            placeholder="Message"
+            multiline
+            rows={8}
+          />
         </FormGroup>
 
         <Button type="submit" variant="contained" css={{ margin: "0 1rem" }}>
