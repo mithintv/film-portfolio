@@ -8,7 +8,7 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 import { slideIn } from "../lib/animations";
-export default function Social() {
+export default function Social({ mobile }: { mobile: boolean }) {
   const icons = [
     // {
     //   link: "https://faceobook.com/mithintv",
@@ -44,7 +44,8 @@ export default function Social() {
       css={{
         width: "100%",
         maxWidth: "1000px",
-        margin: "auto auto 2rem",
+        height: mobile ? "25vh" : "auto",
+        margin: mobile ? "auto 0 0" : "auto auto 2rem",
         display: "flex",
         flexDirection: "column",
         textAlign: "center",
@@ -54,7 +55,7 @@ export default function Social() {
       <Container
         css={{
           width: "200px",
-          margin: "3rem auto 1rem",
+          margin: mobile ? "5rem auto 1rem" : "3rem auto 1rem",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-around",

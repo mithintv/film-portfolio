@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
             {...pageProps}
           />
         </Navigation>
-        {socialDelay && <Social key={Math.random()} />}
+        {socialDelay && <Social key={Math.random()} mobile={mobile} />}
       </div>
     </Theme>
   );
