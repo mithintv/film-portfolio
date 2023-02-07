@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { IMaskInput } from "react-imask";
 import { ReactElement } from "react-imask/dist/mixin";
+import { keyframes } from "@emotion/react";
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
@@ -194,14 +195,14 @@ const contactReducer = (state: typeof initialState, action: ActionType) => {
     }
     case "submit": {
       let newObj: typeof initialState = { ...state };
-      for (const key in state) {
-        state[key as keyof typeof state] = {
-          ...state[key as keyof typeof state],
+      for (const key in newObj) {
+        newObj[key as keyof typeof newObj] = {
+          ...newObj[key as keyof typeof newObj],
           touched: true,
-          showError: true && !state[key as keyof typeof state].valid,
+          showError: true && !newObj[key as keyof typeof newObj].valid,
         };
       }
-      return { ...state };
+      return { ...newObj };
     }
     case "reset":
       return { ...initialState };
@@ -213,6 +214,8 @@ const contactReducer = (state: typeof initialState, action: ActionType) => {
 export default function Contact({ mini }: { mini: boolean }) {
   const [valid, dispatchValid] = useReducer(contactReducer, initialState);
   const [formValid, setFormValid] = useState(false);
+  const [fadeForm, setFadeForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const formRef = useRef<HTMLFormElement>(null);
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -319,8 +322,33 @@ export default function Contact({ mini }: { mini: boolean }) {
       return;
     } else {
       console.log(formRef);
-      dispatchValid({ type: "reset" });
+      setFadeForm(true);
+      setTimeout(() => {
+        setShowForm(false);
+        dispatchValid({ type: "reset" });
+      }, 500);
     }
+  };
+
+  const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }`;
+
+  const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }`;
+
+  const sendAnother = () => {
+    setFadeForm(false);
+    setShowForm(true);
   };
 
   return (
@@ -332,15 +360,44 @@ export default function Contact({ mini }: { mini: boolean }) {
         }}
       >
         <Heading title="Contact" />
+        {!showForm && (
+          <Container
+            disableGutters
+            css={{
+              height: "200px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="body2">
+              Thank you for your sending a message! I really appreciate that you
+              took the time to peruse my portfolio and reach out. I will get
+              back to you via email as soon as possible. Cheers!
+            </Typography>
+            <Button
+              css={{ width: "100%" }}
+              variant="contained"
+              onClick={sendAnother}
+            >
+              SEND ANOTHER MESSAGE
+            </Button>
+          </Container>
+        )}
         {/* Form Container */}
         <form
           ref={formRef}
           onSubmit={submitHandler}
           css={{
-            display: "flex",
+            display: showForm ? "flex" : "none",
             flexDirection: "column",
             justifyContent: "center",
             margin: "0 0",
+            animation: fadeForm
+              ? `${fadeOut} 0.5s ease`
+              : `${fadeIn} 0.5s ease`,
+            opacity: fadeForm ? 0 : 1,
           }}
         >
           {/* contact container */}
@@ -510,7 +567,9 @@ export default function Contact({ mini }: { mini: boolean }) {
                           <Checkbox
                             checked={valid["Role"].value.includes(element!)}
                             onChange={handleCheck}
-                            sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
+                            sx={{
+                              "& .MuiSvgIcon-root": { fontSize: "1rem" },
+                            }}
                           />
                         }
                       ></FormControlLabel>
