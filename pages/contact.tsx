@@ -40,7 +40,7 @@ type State = {
 };
 
 type ActionType = {
-  type: "blur" | "change" | "check" | "submit" | "reset";
+  type: "blur" | "change" | "check" | "uncheck" | "submit" | "reset";
   input: {
     name: keyof typeof initialState;
     value?: string;
@@ -179,9 +179,26 @@ const contactReducer = (state: typeof initialState, action: ActionType) => {
           touched: true,
           firstBlur: true,
           showError: state[action.input.name].firstBlur
-            ? action.input.touched && !action.input.valid
+            ? state[action.input.name].touched && !true
             : false,
           valid: true,
+        },
+      };
+    }
+    case "uncheck": {
+      const values = [...state[action.input.name].value].filter(
+        (value) => value !== action.input.value!
+      );
+      return {
+        ...state,
+        [action.input.name!]: {
+          value: values,
+          touched: true,
+          firstBlur: true,
+          showError: state[action.input.name].firstBlur
+            ? state[action.input.name].touched && !(values.length > 0)
+            : false,
+          valid: values.length > 0,
         },
       };
     }
@@ -271,16 +288,8 @@ export default function Contact({ mini }: { mini: boolean }) {
     });
   };
 
-  const handleCheck = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    inputRef: React.RefObject<HTMLOptionsCollection>
-  ) => {
-    console.log(
-      event.target.checked,
-      event.target.name,
-      event.target.value,
-      inputRef
-    );
+  const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.checked, event.target.name, event.target.value);
     if (event.target.checked) {
       dispatchValid({
         type: "check",
@@ -291,6 +300,14 @@ export default function Contact({ mini }: { mini: boolean }) {
         },
       });
     } else {
+      dispatchValid({
+        type: "uncheck",
+        input: {
+          name: event.target.name as keyof typeof initialState,
+          value: event.target.value,
+          // category: event.target.id as keyof typeof initialState,
+        },
+      });
     }
   };
 
@@ -427,7 +444,9 @@ export default function Contact({ mini }: { mini: boolean }) {
               marginBottom: "2rem",
             }}
           >
-            <FormLabel error>How did you hear about Mithin?*</FormLabel>
+            <FormLabel error={valid["Hear"].showError}>
+              How did you hear about Mithin?*
+            </FormLabel>
             {[
               "Social Media (Facebook, Instagram, YouTube, Vimeo, etc.)",
               "Search Engine (Google, Yahoo, Bing, etc.)",
@@ -444,9 +463,7 @@ export default function Contact({ mini }: { mini: boolean }) {
                   }
                   control={
                     <Checkbox
-                      onChange={(event) => {
-                        handleCheck(event, hearRef);
-                      }}
+                      onChange={handleCheck}
                       sx={{
                         "& .MuiSvgIcon-root": {
                           fontSize: "1rem",
@@ -458,6 +475,7 @@ export default function Contact({ mini }: { mini: boolean }) {
               );
             })}
             <FormLabel
+              error={valid["Role"].showError}
               css={{
                 marginTop: "2rem",
               }}
@@ -470,9 +488,10 @@ export default function Contact({ mini }: { mini: boolean }) {
                   (element, index) => {
                     return (
                       <FormControlLabel
-                        name={element}
+                        name="Role"
                         id={`roleP${index}`}
                         css={{ fontSize: "0.5rem" }}
+                        value={element}
                         key={index}
                         label={
                           <Typography variant="checkboxLabel">
@@ -481,6 +500,7 @@ export default function Contact({ mini }: { mini: boolean }) {
                         }
                         control={
                           <Checkbox
+                            onChange={handleCheck}
                             sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
                           />
                         }
@@ -494,15 +514,17 @@ export default function Contact({ mini }: { mini: boolean }) {
                   (element, index) => {
                     return (
                       <FormControlLabel
-                        name={element}
+                        name="Role"
                         id={`roleS${index}`}
                         sx={{
                           "& .MuiTypography-root": { fontSize: "0.9rem" },
                         }}
                         key={index}
                         label={element}
+                        value={element}
                         control={
                           <Checkbox
+                            onChange={handleCheck}
                             sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
                           />
                         }

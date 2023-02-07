@@ -32,7 +32,12 @@ export default function Home({ projects }: ProjectsType) {
           alignItems="center"
           columns={{ xs: 1, sm: 1, md: 1 }}
         >
-          <Project project={projects[0]} timeout={1} feature={true} />
+          <Project
+            mobile={false}
+            project={projects[0]}
+            timeout={1}
+            feature={true}
+          />
         </Grid>
       </Box>
     </section>
