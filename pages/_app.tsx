@@ -14,16 +14,27 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <Theme>
-      <Navigation desktop={desktop} tablet={tablet} mobile={mobile}>
-        <Component
-          desktop={desktop}
-          tablet={tablet}
-          mobile={mobile}
-          mini={mini}
-          {...pageProps}
-        />
+      <div
+        css={{
+          minHeight: "100vh",
+          maxHeight: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "start",
+          alignItems: "center",
+        }}
+      >
+        <Navigation desktop={desktop} tablet={tablet} mobile={mobile}>
+          <Component
+            desktop={desktop}
+            tablet={tablet}
+            mobile={mobile}
+            mini={mini}
+            {...pageProps}
+          />
+        </Navigation>
         <Social />
-      </Navigation>
+      </div>
     </Theme>
   );
 }

@@ -40,7 +40,7 @@ export default function Navigation({
         css={css({
           display: "flex",
           maxWidth: "1400px",
-          margin: "auto",
+          margin: "0 auto",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",

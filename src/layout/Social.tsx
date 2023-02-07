@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Avatar, Box, Fade, Container } from "@mui/material";
+import { Avatar, Box, Fade, Container, Typography } from "@mui/material";
 import {
   FaFacebookF,
   FaInstagram,
@@ -36,13 +36,17 @@ export default function Social() {
       css={{
         width: "100%",
         maxWidth: "1000px",
-        margin: "2rem 0",
+        margin: "auto auto 2rem",
+        display: "flex",
+        flexDirection: "column",
+        textAlign: "center",
+        justifySelf: "end",
       }}
     >
       <Container
         css={{
           width: "200px",
-          margin: "1rem auto",
+          margin: "3rem auto 1rem",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-around",
@@ -75,6 +79,9 @@ export default function Social() {
           );
         })}
       </Container>
+      <Typography variant="overline">
+        Copyright © 2023 Mithin G. Thomas
+      </Typography>
     </Box>
   );
 }
