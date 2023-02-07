@@ -4,6 +4,7 @@ import type { AppProps } from "next/app";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Theme from "../src/theme";
 import Navigation from "../src/layout/Navigation";
+import Social from "../src/layout/Social";
 
 export default function App({ Component, pageProps }: AppProps) {
   const desktop = useMediaQuery("(min-width:900px)");
@@ -21,6 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
           mini={mini}
           {...pageProps}
         />
+        <Social />
       </Navigation>
     </Theme>
   );

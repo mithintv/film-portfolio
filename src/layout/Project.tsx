@@ -8,7 +8,7 @@ import { ProjectType } from "../lib/mysql";
 // MUI and Emotion
 import { Box, Fade, Grid, Modal, Typography } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
-import { keyframes } from "@emotion/react";
+import { slideIn } from "../lib/animations";
 
 type AppProps = {
   project: ProjectType;
@@ -22,14 +22,6 @@ export default function Project(props: AppProps) {
   const [open, setOpen] = useState<true | false>(false);
   const [details, setDetails] = useState<true | false>(false);
   const roles = props.project.role.split(",");
-
-  const slideIn = keyframes`
-  from {
-    transform: translateY(50px);
-  }
-  to {
-    transform: translateY(0px);
-  }`;
 
   return (
     <Fade
