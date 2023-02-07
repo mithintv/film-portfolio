@@ -15,7 +15,7 @@ export default function Header({ mobile }: { mobile: boolean }) {
           flexDirection: "column",
           height: "3rem",
           textAlign: mobile ? "center" : "start",
-          animation: `${slideIn} 1s ease`,
+          // animation: `${slideIn} 1s ease`,
         }}
       >
         <h1
@@ -55,8 +55,8 @@ export default function Header({ mobile }: { mobile: boolean }) {
           css={{
             fontSize: "1rem",
             margin: "0.15rem 0.15rem 0",
-            animation: `${slideIn} 1s ease`,
-            animationDelay: "100ms",
+            // animation: `${slideIn} 1s ease`,
+            // animationDelay: "100ms",
           }}
         />
       </Link>

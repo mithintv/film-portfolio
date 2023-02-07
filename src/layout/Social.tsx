@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Avatar, Box, Fade, Container, Typography } from "@mui/material";
 import {
@@ -31,6 +32,13 @@ export default function Social() {
     },
   ];
 
+  const [delay, setDelay] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setDelay(true);
+    }, 500);
+  }, []);
+
   return (
     <Box
       css={{
@@ -55,7 +63,7 @@ export default function Social() {
         {icons.map((element, index) => {
           return (
             <Fade
-              key={index}
+              key={index + 1}
               in
               timeout={1000}
               style={{ transitionDelay: `${index * 100}ms` }}
@@ -79,9 +87,17 @@ export default function Social() {
           );
         })}
       </Container>
-      <Typography variant="overline">
-        Copyright © 2023 Mithin G. Thomas
-      </Typography>
+      <Fade in timeout={1000} style={{ transitionDelay: `200ms` }}>
+        <Typography
+          variant="overline"
+          css={{
+            animation: `${slideIn} 1s ease`,
+            animationDelay: `200ms`,
+          }}
+        >
+          Copyright © 2023 Mithin G. Thomas
+        </Typography>
+      </Fade>
     </Box>
   );
 }

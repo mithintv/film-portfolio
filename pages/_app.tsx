@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 
@@ -11,6 +12,14 @@ export default function App({ Component, pageProps }: AppProps) {
   const tablet = useMediaQuery("(max-width:900px)");
   const mobile = useMediaQuery("(max-width:600px)");
   const mini = useMediaQuery("(max-width:480px)");
+
+  const [socialDelay, setSocialDelay] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSocialDelay(true);
+    }, 500);
+  }, []);
 
   return (
     <Theme>
@@ -33,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
             {...pageProps}
           />
         </Navigation>
-        <Social />
+        {socialDelay && <Social key={Math.random()} />}
       </div>
     </Theme>
   );

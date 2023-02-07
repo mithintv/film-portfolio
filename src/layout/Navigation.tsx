@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 import Nav from "./Nav";
 import Header from "./Header";
 import MobileNav from "./MobileNav";
@@ -17,37 +19,53 @@ export default function Navigation({
   mobile: boolean;
   children: React.ReactNode;
 }) {
+  const [navDelay, setNavDelay] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setNavDelay(true);
+    }, 250);
+  }, []);
+  const [contentDelay, setContentDelay] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setContentDelay(true);
+    }, 500);
+  }, []);
   return (
     <>
       {desktop && !tablet && (
         <Nav mobile={false}>
           <Header mobile={false} />
-          <List
-            css={css({
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              margin: "0",
-            })}
-          >
-            <Links onClose={() => {}} tablet={false} mobile={false} />
-          </List>
+          {navDelay && (
+            <List
+              css={css({
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                margin: "0",
+              })}
+            >
+              <Links onClose={() => {}} tablet={false} mobile={false} />
+            </List>
+          )}
         </Nav>
       )}
       {tablet && !mobile && <MobileNav tablet={true} mobile={false} />}
       {mobile && <MobileNav mobile={true} tablet={false} />}
-      <main
-        css={css({
-          display: "flex",
-          maxWidth: "1400px",
-          margin: "0 auto",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        })}
-      >
-        {children}
-      </main>
+      {contentDelay && (
+        <main
+          css={css({
+            display: "flex",
+            maxWidth: "1400px",
+            margin: "0 auto",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          })}
+        >
+          {children}
+        </main>
+      )}
     </>
   );
 }

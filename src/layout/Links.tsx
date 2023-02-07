@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { List, ListItem, ListItemText } from "@mui/material";
+import { Fade, List, ListItem, ListItemText } from "@mui/material";
+import { slideIn } from "../lib/animations";
 
 type AppProps = {
   mobile: boolean;
@@ -55,60 +56,69 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
     >
       {nav.map((navLink, index) => {
         return (
-          <ListItem
-            css={{
-              width: "100%",
-              padding: tablet || mobile ? "0" : "0 0.5rem",
-              backgroundColor:
-                (tablet || mobile) &&
-                router.route.replace(/\//g, "") === navLink.replace(" ", "")
-                  ? "#F1F1F1"
-                  : "#FFF",
-              "&:hover": {
-                backgroundColor: tablet || mobile ? "#F1F1F1" : "#fff",
-              },
-            }}
-            onClick={onClose}
-            key={navLink}
+          <Fade
+            key={index + 1}
+            in
+            timeout={1000}
+            style={{ transitionDelay: `${index * 100}ms` }}
           >
-            <Link
-              href={`/${navLink.replace(" ", "")}`}
+            <ListItem
               css={{
                 width: "100%",
-                pointerEvents:
+                padding: tablet || mobile ? "0" : "0 0.5rem",
+                backgroundColor:
+                  (tablet || mobile) &&
                   router.route.replace(/\//g, "") === navLink.replace(" ", "")
-                    ? "none"
-                    : "auto",
+                    ? "#F1F1F1"
+                    : "#FFF",
+                "&:hover": {
+                  backgroundColor: tablet || mobile ? "#F1F1F1" : "#fff",
+                },
+                // animation: `${slideIn} 1s ease`,
+                // animationDelay: `${index * 100}ms`,
               }}
+              onClick={onClose}
             >
-              <ListItemText
+              <Link
+                href={`/${navLink.replace(" ", "")}`}
                 css={{
-                  span: {
-                    color: "#2e2e2e",
-                    fontWeight: "600",
-                    whiteSpace: "nowrap",
-                  },
-                  display: "inline-block",
-                  textAlign: "center",
-                  justifyContent: "center",
                   width: "100%",
-                  padding: tablet || mobile ? "1rem 0" : "0 0",
-                  margin: "0 auto",
-                  textDecoration:
-                    !tablet &&
-                    !mobile &&
+                  pointerEvents:
                     router.route.replace(/\//g, "") === navLink.replace(" ", "")
-                      ? "underline"
-                      : "none",
-                  textUnderlineOffset: "3px",
-                  textDecorationThickness: "3.5px",
-                  ...underlineAnimation,
+                      ? "none"
+                      : "auto",
                 }}
               >
-                {navLink}
-              </ListItemText>
-            </Link>
-          </ListItem>
+                <ListItemText
+                  css={{
+                    span: {
+                      color: "#2e2e2e",
+                      fontWeight: "600",
+                      whiteSpace: "nowrap",
+                    },
+                    display: "inline-block",
+                    textAlign: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    padding: tablet || mobile ? "1rem 0" : "0 0",
+                    margin: "0 auto",
+                    textDecoration:
+                      !tablet &&
+                      !mobile &&
+                      router.route.replace(/\//g, "") ===
+                        navLink.replace(" ", "")
+                        ? "underline"
+                        : "none",
+                    textUnderlineOffset: "3px",
+                    textDecorationThickness: "3.5px",
+                    ...underlineAnimation,
+                  }}
+                >
+                  {navLink}
+                </ListItemText>
+              </Link>
+            </ListItem>
+          </Fade>
         );
       })}
     </List>
