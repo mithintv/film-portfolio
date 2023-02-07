@@ -17,6 +17,9 @@ import {
 import { IMaskInput } from "react-imask";
 import { ReactElement } from "react-imask/dist/mixin";
 import { keyframes } from "@emotion/react";
+
+import emailjs from "@emailjs/browser";
+
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
@@ -322,6 +325,21 @@ export default function Contact({ mini }: { mini: boolean }) {
       return;
     } else {
       console.log(formRef);
+      emailjs
+        .sendForm(
+          "service_qujmb0w",
+          "template_3gxq5vv",
+          formRef.current!,
+          "-YTmwUFLJVqxXgeZh"
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
       setFadeForm(true);
       setTimeout(() => {
         setShowForm(false);

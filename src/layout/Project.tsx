@@ -109,9 +109,9 @@ export default function Project(props: AppProps) {
               transform: details ? "scale(1.1)" : "scale(1.0)",
               transition: "transform 0.5s ease",
             }}
-            // sizes="(max-width: 768px) 90vw,
-            // (max-width: 1200px) 50vw,
-            // 33vw"
+            sizes="(max-width: 768px) 90vw,
+            (max-width: 1200px) 50vw,
+            33vw"
             fill
             src={`/images/${props.project.localThumbnail}`}
             alt={props.project.title}
