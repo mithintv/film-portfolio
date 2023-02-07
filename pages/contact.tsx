@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "../src/theme";
 
@@ -41,7 +41,7 @@ type State = {
 
 type ActionType = {
   type: "blur" | "change" | "check" | "uncheck" | "submit" | "reset";
-  input: {
+  input?: {
     name: keyof typeof initialState;
     value?: string;
     touched?: boolean;
@@ -123,11 +123,6 @@ const initialState: State = {
     showError: false,
     firstBlur: false,
     touched: false,
-    // selections: [
-    //   {
-    //     value: "",
-    //   },
-    // ],
   },
   Role: {
     value: [],
@@ -135,11 +130,6 @@ const initialState: State = {
     showError: false,
     firstBlur: false,
     touched: false,
-    // selections: [
-    //   {
-    //     value: "",
-    //   },
-    // ],
   },
 };
 
@@ -148,55 +138,55 @@ const contactReducer = (state: typeof initialState, action: ActionType) => {
     case "blur":
       return {
         ...state,
-        [action.input.name]: {
-          ...state[action.input.name],
-          touched: action.input.touched,
-          valid: action.input.valid,
-          showError: action.input.touched && !action.input.valid,
+        [action.input!.name]: {
+          ...state[action.input!.name],
+          touched: action.input!.touched,
+          valid: action.input!.valid,
+          showError: action.input!.touched && !action.input!.valid,
           firstBlur: true,
         },
       };
     case "change":
       return {
         ...state,
-        [action.input.name]: {
-          value: action.input.value,
-          touched: action.input.touched,
-          valid: action.input.valid,
-          showError: state[action.input.name].firstBlur
-            ? action.input.touched && !action.input.valid
+        [action.input!.name]: {
+          value: action.input!.value,
+          touched: action.input!.touched,
+          valid: action.input!.valid,
+          showError: state[action.input!.name].firstBlur
+            ? action.input!.touched && !action.input!.valid
             : false,
-          firstBlur: state[action.input.name].firstBlur,
+          firstBlur: state[action.input!.name].firstBlur,
         },
       };
     case "check": {
-      const values = [...state[action.input.name].value];
-      values.push(action.input.value!);
+      const values = [...state[action.input!.name].value];
+      values.push(action.input!.value!);
       return {
         ...state,
-        [action.input.name!]: {
+        [action.input!.name!]: {
           value: values,
           touched: true,
           firstBlur: true,
-          showError: state[action.input.name].firstBlur
-            ? state[action.input.name].touched && !true
+          showError: state[action.input!.name].firstBlur
+            ? state[action.input!.name].touched && !true
             : false,
           valid: true,
         },
       };
     }
     case "uncheck": {
-      const values = [...state[action.input.name].value].filter(
-        (value) => value !== action.input.value!
+      const values = [...state[action.input!.name].value].filter(
+        (value) => value !== action.input!.value!
       );
       return {
         ...state,
-        [action.input.name!]: {
+        [action.input!.name!]: {
           value: values,
           touched: true,
           firstBlur: true,
-          showError: state[action.input.name].firstBlur
-            ? state[action.input.name].touched && !(values.length > 0)
+          showError: state[action.input!.name].firstBlur
+            ? state[action.input!.name].touched && !(values.length > 0)
             : false,
           valid: values.length > 0,
         },
@@ -214,7 +204,7 @@ const contactReducer = (state: typeof initialState, action: ActionType) => {
       return { ...state };
     }
     case "reset":
-      return initialState;
+      return { ...initialState };
     default:
       return initialState;
   }
@@ -222,17 +212,30 @@ const contactReducer = (state: typeof initialState, action: ActionType) => {
 
 export default function Contact({ mini }: { mini: boolean }) {
   const [valid, dispatchValid] = useReducer(contactReducer, initialState);
+  const [formValid, setFormValid] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
-  const hearRef = useRef<HTMLOptionsCollection>(null);
-  const roleRef = useRef<HTMLOptionsCollection>(null);
   const subjectRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLInputElement>(null);
 
   const refs = [firstNameRef, lastNameRef, emailRef, phoneRef];
+
+  // componentDidUpdate() function will run at mount and with every update to dependencies
+  useEffect(() => {
+    setFormValid(
+      valid["First Name"].valid &&
+        valid["Last Name"].valid &&
+        valid["Email"].valid &&
+        valid["Phone Number"].valid &&
+        valid["Hear"].valid &&
+        valid["Role"].valid &&
+        valid["Subject"].valid &&
+        valid["Message"].valid
+    );
+  }, [valid]);
 
   const isValid = (inputRef: React.RefObject<HTMLInputElement>) => {
     if (inputRef?.current?.name === "Email") {
@@ -276,7 +279,6 @@ export default function Contact({ mini }: { mini: boolean }) {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     inputRef: React.RefObject<HTMLInputElement>
   ) => {
-    console.log(event.target.value, inputRef);
     dispatchValid({
       type: "change",
       input: {
@@ -289,14 +291,12 @@ export default function Contact({ mini }: { mini: boolean }) {
   };
 
   const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.checked, event.target.name, event.target.value);
     if (event.target.checked) {
       dispatchValid({
         type: "check",
         input: {
           name: event.target.name as keyof typeof initialState,
           value: event.target.value,
-          // category: event.target.id as keyof typeof initialState,
         },
       });
     } else {
@@ -305,7 +305,6 @@ export default function Contact({ mini }: { mini: boolean }) {
         input: {
           name: event.target.name as keyof typeof initialState,
           value: event.target.value,
-          // category: event.target.id as keyof typeof initialState,
         },
       });
     }
@@ -313,8 +312,15 @@ export default function Contact({ mini }: { mini: boolean }) {
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
-
-    console.log(formRef);
+    if (!formValid) {
+      dispatchValid({
+        type: "submit",
+      });
+      return;
+    } else {
+      console.log(formRef);
+      dispatchValid({ type: "reset" });
+    }
   };
 
   return (
@@ -346,7 +352,7 @@ export default function Contact({ mini }: { mini: boolean }) {
               padding: "0 1rem",
             }}
           >
-            <FormLabel>Who are you?</FormLabel>
+            <FormLabel>Who are you?*</FormLabel>
             {/* input container */}
             <FormGroup
               css={{
@@ -374,7 +380,6 @@ export default function Contact({ mini }: { mini: boolean }) {
                           handleBlur(event, phoneRef);
                         }}
                         inputProps={{ ref: phoneRef }}
-                        required
                         size="small"
                         name={element}
                         id={element}
@@ -397,7 +402,6 @@ export default function Contact({ mini }: { mini: boolean }) {
                   } else {
                     return (
                       <TextField
-                        required
                         helperText={
                           valid[element as keyof typeof initialState].showError
                             ? `Please enter a valid ${element.toLowerCase()}.`
@@ -418,6 +422,9 @@ export default function Contact({ mini }: { mini: boolean }) {
                         key={index}
                         name={element}
                         id={element}
+                        value={
+                          valid[element as keyof typeof initialState].value
+                        }
                         size="small"
                         css={{
                           margin: "0.25rem 0",
@@ -463,6 +470,7 @@ export default function Contact({ mini }: { mini: boolean }) {
                   }
                   control={
                     <Checkbox
+                      checked={valid["Hear"].value.includes(element!)}
                       onChange={handleCheck}
                       sx={{
                         "& .MuiSvgIcon-root": {
@@ -480,7 +488,7 @@ export default function Contact({ mini }: { mini: boolean }) {
                 marginTop: "2rem",
               }}
             >
-              In what capacity are you looking to hire Mithin?
+              In what capacity are you looking to hire Mithin?*
             </FormLabel>
             <FormGroup css={{ display: "flex", flexDirection: "row" }}>
               <FormGroup>
@@ -500,6 +508,7 @@ export default function Contact({ mini }: { mini: boolean }) {
                         }
                         control={
                           <Checkbox
+                            checked={valid["Role"].value.includes(element!)}
                             onChange={handleCheck}
                             sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
                           />
@@ -526,6 +535,7 @@ export default function Contact({ mini }: { mini: boolean }) {
                           <Checkbox
                             onChange={handleCheck}
                             sx={{ "& .MuiSvgIcon-root": { fontSize: "1rem" } }}
+                            checked={valid["Role"].value.includes(element!)}
                           />
                         }
                       ></FormControlLabel>
@@ -552,10 +562,9 @@ export default function Contact({ mini }: { mini: boolean }) {
                 margin: "0 0 1rem",
               }}
             >
-              Your Message
+              Your Message*
             </FormLabel>
             <TextField
-              required
               helperText={
                 valid["Subject"].showError
                   ? "Please enter a valid subject."
@@ -571,6 +580,7 @@ export default function Contact({ mini }: { mini: boolean }) {
               inputProps={{ ref: subjectRef }}
               name="Subject"
               id="Subject"
+              value={valid["Subject"].value}
               size="small"
               css={{
                 margin: "0 0 1rem",
@@ -579,7 +589,6 @@ export default function Contact({ mini }: { mini: boolean }) {
               placeholder="Subject"
             />
             <TextField
-              required
               helperText={
                 valid["Message"].showError
                   ? "Please enter a valid message."
@@ -595,6 +604,7 @@ export default function Contact({ mini }: { mini: boolean }) {
               inputProps={{ ref: messageRef }}
               name="Message"
               id="Message"
+              value={valid["Message"].value}
               placeholder="Message"
               multiline
               rows={8}
