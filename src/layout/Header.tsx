@@ -39,7 +39,7 @@ export default function Header({ mobile }: { mobile: boolean }) {
           1000,
           "1st AC",
           1000,
-          "Grip",
+          "Grip/Electric",
           1000,
           () => {
             // Place optional callbacks anywhere in the array

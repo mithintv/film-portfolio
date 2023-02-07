@@ -1,6 +1,6 @@
 import { GetStaticProps } from "next";
 
-import { getProjects, ProjectsType } from "../src/lib/mysql";
+import { getProjects, ProjectType } from "../src/lib/mysql";
 import Heading from "../src/layout/Heading";
 import Project from "../src/layout/Project";
 
@@ -8,8 +8,17 @@ import { css } from "@emotion/react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-export default function Home({ projects }: ProjectsType) {
-  console.log(projects);
+export default function Home({
+  projects,
+  desktop,
+  tablet,
+  mobile,
+}: {
+  projects: ProjectType[];
+  desktop: boolean;
+  tablet: boolean;
+  mobile: boolean;
+}) {
   return (
     <section
       css={css({
@@ -32,7 +41,12 @@ export default function Home({ projects }: ProjectsType) {
           alignItems="center"
           columns={{ xs: 1, sm: 1, md: 1 }}
         >
-          <Project project={projects[0]} timeout={1} feature={true} />
+          <Project
+            mobile={mobile}
+            project={projects[0]}
+            timeout={1}
+            feature={true}
+          />
         </Grid>
       </Box>
     </section>

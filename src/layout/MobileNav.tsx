@@ -54,7 +54,7 @@ export default function MobileNav({ mobile, tablet }: AppProps) {
         )}
       </Nav>
       <SwipeableDrawer
-        anchor={"top"}
+        anchor={tablet ? "right" : "top"}
         open={drawer}
         onOpen={toggleDrawer}
         onClose={toggleDrawer}

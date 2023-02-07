@@ -19,7 +19,6 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
   ];
 
   const router = useRouter();
-  console.log(router.route);
 
   const underlineAnimation: {} | undefined =
     tablet || mobile
@@ -51,6 +50,7 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
         display: "flex",
         flexDirection: tablet || mobile ? "column" : "row",
         padding: "0",
+        width: tablet ? "25vw" : "100%",
       }}
     >
       {nav.map((navLink, index) => {
