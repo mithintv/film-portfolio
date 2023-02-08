@@ -1,6 +1,6 @@
 import { Sequelize, Model, DataTypes, Op } from "sequelize";
 
-export const sequelize = new Sequelize(
+export const sequelizeLocal = new Sequelize(
   "film_portfolio",
   "root",
   `${process.env.PASSWORD}`,
@@ -9,6 +9,22 @@ export const sequelize = new Sequelize(
     dialect: "mysql",
   }
 );
+export const sequelize = new Sequelize(
+  "film-portfolio",
+  `${process.env.NEXT_PUBLIC_PLANET_SCALE_USERNAME}`,
+  `${process.env.NEXT_PUBLIC_PLANET_SCALE_PASSWORD}`,
+  {
+    host: `us-east.connect.psdb.cloud`,
+    dialect: "mysql",
+    dialectOptions: {
+      ssl: { rejectUnauthorized: true },
+    },
+  }
+);
+
+// export const sequelize = new Sequelize(
+//   `${process.env.NEXT_PUBLIC_PLANET_SCALE_CONNECTION_STRING}`
+// );
 
 export type ProjectType = {
   id: string;
@@ -34,6 +50,7 @@ export const Project = sequelize.define(
       primaryKey: true,
     },
     title: DataTypes.TEXT,
+    client: DataTypes.TEXT,
     url: DataTypes.TEXT,
     category: DataTypes.ENUM(
       "Narrative",
@@ -46,9 +63,11 @@ export const Project = sequelize.define(
       "Cinematographer",
       "Editor",
       "Colorist",
-      "2D Animator/Motion Graphic Designer",
-      "AC",
-      "Grip"
+      "2D Animator",
+      "1st AC",
+      "Camera Op",
+      "Grip",
+      "Electric"
     ),
     published: DataTypes.DATE,
     thumbnail: DataTypes.TEXT,
