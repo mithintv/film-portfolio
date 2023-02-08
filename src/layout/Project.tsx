@@ -73,6 +73,7 @@ export default function Project(props: AppProps) {
             <Typography
               css={{
                 color: "#fff",
+                padding: "0 0.5rem",
               }}
               variant="h6"
               align="center"
