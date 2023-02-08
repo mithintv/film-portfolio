@@ -49,8 +49,9 @@ export default function Project(props: AppProps) {
           onMouseLeave={() => setDetails(false)}
         >
           <AspectRatio
+            ratio={props.feature ? "2.39/1" : "16/9"}
             css={{
-              width: props.feature ? "80vw" : "100%",
+              width: props.feature ? "90vw" : "100%",
               maxWidth: "1000px",
             }}
           >
@@ -94,7 +95,7 @@ export default function Project(props: AppProps) {
                     variant="caption"
                     align="center"
                   >
-                    {role}
+                    {props.feature ? "" : role}
                   </Typography>
                 );
               })}

@@ -31,7 +31,7 @@ export default function Home({
       <Heading title="Reel" />
       <Box
         sx={{
-          padding: "0 2em",
+          padding: "0 0",
           width: "100%",
         }}
       >
