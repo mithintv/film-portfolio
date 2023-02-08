@@ -1,4 +1,4 @@
-import { Fade } from "@mui/material";
+import { Fade, Typography } from "@mui/material";
 
 export default function Heading({
   title,
@@ -7,15 +7,15 @@ export default function Heading({
 }) {
   return (
     <Fade in timeout={1000}>
-      <h2
+      <Typography
+        variant="h3"
         css={{
-          fontSize: "1.25rem",
           textAlign: "center",
           margin: "2rem 0",
         }}
       >
         {title}
-      </h2>
+      </Typography>
     </Fade>
   );
 }

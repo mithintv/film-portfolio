@@ -1,13 +1,23 @@
 import Heading from "../src/layout/Heading";
 import ProjectList from "../src/layout/ProjectLIst";
 import { GetStaticProps } from "next";
-import { getProjects, ProjectsType } from "../src/lib/mysql";
+import { getProjects, ProjectType } from "../src/lib/mysql";
 
-export default function Commercial({ projects }: ProjectsType) {
+export default function Commercial({
+  projects,
+  desktop,
+  tablet,
+  mobile,
+}: {
+  projects: ProjectType[];
+  desktop: boolean;
+  tablet: boolean;
+  mobile: boolean;
+}) {
   return (
     <div>
       <Heading title="Commercial" />
-      <ProjectList projects={projects} />
+      <ProjectList mobile={mobile} projects={projects} />
     </div>
   );
 }

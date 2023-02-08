@@ -178,11 +178,19 @@ const { unstable_sxConfig: joySxConfig, ...joyTheme } = extendJoyTheme({
 // Create a theme instance.
 export const theme = createTheme({
   typography: {
+    fontFamily: "Poppins, san-serif",
     checkboxLabel: {
       fontSize: "0.9rem",
     },
     inputError: {
       color: "#ff1744",
+    },
+    h1: {
+      fontSize: "1.742rem",
+      fontWeight: "700",
+    },
+    h3: {
+      fontSize: "1.25rem",
     },
   },
   palette: {

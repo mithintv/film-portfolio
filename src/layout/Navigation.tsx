@@ -23,13 +23,13 @@ export default function Navigation({
   useEffect(() => {
     setTimeout(() => {
       setNavDelay(true);
-    }, 250);
+    }, 100);
   }, []);
   const [contentDelay, setContentDelay] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       setContentDelay(true);
-    }, 500);
+    }, 250);
   }, []);
   return (
     <>
