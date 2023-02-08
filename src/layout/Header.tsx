@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { Fade } from "@mui/material";
+import { Fade, Typography } from "@mui/material";
 
 import { TypeAnimation } from "react-type-animation";
 
@@ -18,15 +18,15 @@ export default function Header({ mobile }: { mobile: boolean }) {
           // animation: `${slideIn} 1s ease`,
         }}
       >
-        <h1
+        <Typography
+          variant="h1"
           css={{
             margin: "0rem 0rem",
-            fontSize: "1.65rem",
             lineHeight: "1.75rem",
           }}
         >
           MITHIN G. THOMAS
-        </h1>
+        </Typography>
         <TypeAnimation
           sequence={[
             "Director", // Types 'One'
@@ -49,11 +49,12 @@ export default function Header({ mobile }: { mobile: boolean }) {
               // Place optional callbacks anywhere in the array
             },
           ]}
-          wrapper="h3"
+          wrapper="h2"
           cursor={false}
           repeat={Infinity}
           css={{
             fontSize: "1rem",
+            fontWeight: "500",
             margin: "0.15rem 0.15rem 0",
             // animation: `${slideIn} 1s ease`,
             // animationDelay: "100ms",

@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     setTimeout(() => {
       setSocialDelay(true);
-    }, 500);
+    }, 750);
   }, []);
 
   return (
@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
             {...pageProps}
           />
         </Navigation>
-        {socialDelay && <Social key={Math.random()} mobile={mobile} />}
+        {socialDelay && <Social mobile={mobile} />}
       </div>
     </Theme>
   );
