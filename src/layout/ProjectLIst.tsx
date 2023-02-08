@@ -44,6 +44,7 @@ export default function ProjectList({
         {projects.map((project, index) => {
           return (
             <Project
+              fade={beginFade}
               onLoad={loadIncrement}
               key={project.id}
               mobile={mobile}

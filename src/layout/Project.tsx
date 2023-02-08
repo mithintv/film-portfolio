@@ -12,6 +12,7 @@ import { slideIn } from "../lib/animations";
 
 type AppProps = {
   project: ProjectType;
+  fade: boolean;
   onLoad: () => void;
   feature?: boolean | undefined;
   timeout: number;
@@ -19,7 +20,6 @@ type AppProps = {
 };
 
 export default function Project(props: AppProps) {
-  const [load, setLoad] = useState(false);
   const containerRef = React.useRef(null);
   const [open, setOpen] = useState<true | false>(false);
   const [details, setDetails] = useState<true | false>(false);
@@ -28,7 +28,7 @@ export default function Project(props: AppProps) {
   return (
     <>
       <Fade
-        in={load}
+        in={props.fade}
         timeout={1000}
         style={{ transitionDelay: `${props.timeout * 100}ms` }}
       >
@@ -109,10 +109,10 @@ export default function Project(props: AppProps) {
             (max-width: 1200px) 50vw,
             33vw"
               fill
-              src={props.project.thumbnail}
+              src={`/images/${props.project.localThumbnail}`}
               alt={props.project.title}
               onLoadingComplete={() => {
-                props.onLoad;
+                props.onLoad();
               }}
             />
           </AspectRatio>

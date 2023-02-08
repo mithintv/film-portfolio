@@ -42,6 +42,8 @@ export default function Home({
           columns={{ xs: 1, sm: 1, md: 1 }}
         >
           <Project
+            fade={true}
+            onLoad={() => {}}
             mobile={mobile}
             project={projects[0]}
             timeout={1}
