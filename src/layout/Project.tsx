@@ -106,7 +106,7 @@ export default function Project(props: AppProps) {
             (max-width: 1200px) 50vw,
             33vw"
             fill
-            src={`/images/${props.project.localThumbnail}`}
+            src={props.project.thumbnail}
             alt={props.project.title}
           />
         </AspectRatio>
