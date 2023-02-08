@@ -30,7 +30,7 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
             position: "absolute",
             width: "100% - 0px",
             transform: "scaleX(0)",
-            height: "3.5px",
+            height: "1.1px",
             bottom: 0,
             left: 8,
             right: 8,
@@ -65,7 +65,7 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
             <ListItem
               css={{
                 width: "100%",
-                padding: tablet || mobile ? "0" : "0 0.5rem",
+                padding: tablet || mobile ? "0" : "0 0.45rem",
                 backgroundColor:
                   (tablet || mobile) &&
                   router.route.replace(/\//g, "") === navLink.replace(" ", "")
@@ -93,7 +93,8 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
                   css={{
                     span: {
                       color: "#2e2e2e",
-                      fontWeight: "600",
+                      fontKerning: "normal",
+                      fontWeight: "500",
                       whiteSpace: "nowrap",
                     },
                     display: "inline-block",
@@ -109,8 +110,8 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
                         navLink.replace(" ", "")
                         ? "underline"
                         : "none",
-                    textUnderlineOffset: "3px",
-                    textDecorationThickness: "3.5px",
+                    textUnderlineOffset: "5px",
+                    textDecorationThickness: "1.1px",
                     ...underlineAnimation,
                   }}
                 >
