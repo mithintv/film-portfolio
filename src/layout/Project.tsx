@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import { ProjectType } from "../lib/mysql";
 
 // MUI and Emotion
-import { Box, Container, Fade, Grid, Modal, Typography } from "@mui/material";
+import { Container, Fade, Grid, Modal, Typography } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { fadeIn, fadeOut, slideIn } from "../lib/animations";
 
@@ -21,19 +21,10 @@ type AppProps = {
 
 export default function Project(props: AppProps) {
   const containerRef = React.useRef(null);
-  const [fadeOut, setFadeOut] = useState(false);
+  const [fade, setFade] = useState(false);
   const [open, setOpen] = useState<true | false>(false);
   const [details, setDetails] = useState<true | false>(false);
   const roles = props.project.role.split(",");
-
-  useEffect(() => {
-    if (fadeOut) {
-      setTimeout(() => {
-        setOpen(false);
-      }, 1000);
-    }
-    return () => {};
-  }, [fadeOut]);
 
   return (
     <>
@@ -80,7 +71,7 @@ export default function Project(props: AppProps) {
                 transition: "opacity 0.5s ease",
               }}
               onClick={() => {
-                setFadeOut(false);
+                setFade(false);
                 setDetails(false);
                 setOpen(true);
               }}
@@ -131,31 +122,47 @@ export default function Project(props: AppProps) {
           </AspectRatio>
           <Modal
             css={{
-              width: "100vw",
+              backgroundColor: "#000",
+              border: "0px solid black",
+              outline: "none",
+              width: "100%",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              animation: fadeOut
-                ? `${fadeOut} 0.5s ease`
-                : `${fadeIn} 0.5s ease`,
-              opacity: fadeOut ? 0 : 1,
+              animation: !fade
+                ? `${fadeIn} 0.5s ease`
+                : `${fadeOut} 0.75s ease`,
+              opacity: !fade ? 1 : 0,
             }}
+            disablePortal
+            closeAfterTransition
             open={open}
-            onClose={() => setFadeOut(true)}
+            onClose={() => {
+              setFade(true);
+              setTimeout(() => {
+                setOpen(false);
+              }, 500);
+            }}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             slotProps={{
               backdrop: {
                 sx: {
                   backgroundColor: "#000",
-                  opacity: 0.5,
                 },
               },
             }}
           >
             <Container
-              onClick={() => setFadeOut(true)}
+              onClick={() => {
+                setFade(true);
+                setTimeout(() => {
+                  setOpen(false);
+                }, 500);
+              }}
               css={{
+                width: "100vw",
+                maxWidth: "1400px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -165,9 +172,11 @@ export default function Project(props: AppProps) {
               }}
             >
               <AspectRatio
-                sx={{
+                css={{
                   width: "100%",
                   maxWidth: "1400px",
+                  border: "0px solid black",
+                  outline: "none",
                 }}
               >
                 <ReactPlayer
@@ -179,7 +188,14 @@ export default function Project(props: AppProps) {
                 />
               </AspectRatio>
               <Container
+                onClick={() => {
+                  setFade(true);
+                  setTimeout(() => {
+                    setOpen(false);
+                  }, 500);
+                }}
                 css={{
+                  position: "relative",
                   height: "100px",
                   border: "0px solid black",
                   outline: "none",
