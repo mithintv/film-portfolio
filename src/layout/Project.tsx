@@ -6,7 +6,7 @@ import ReactPlayer from "react-player";
 import { ProjectType } from "../lib/mysql";
 
 // MUI and Emotion
-import { Box, Fade, Grid, Modal, Typography } from "@mui/material";
+import { Box, Container, Fade, Grid, Modal, Typography } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { slideIn } from "../lib/animations";
 
@@ -120,40 +120,54 @@ export default function Project(props: AppProps) {
           <Modal
             css={{
               width: "100vw",
-              backgroundColor: "#000",
-              border: "0px",
-              borderRadius: "0px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              zIndex: 2,
+              border: "0px solid black",
+              outline: "none",
+              "&.MuiModal:focus": {
+                border: "0px solid black",
+                outline: "none",
+              },
             }}
             open={open}
             onClose={() => setOpen(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
+            slotProps={{
+              backdrop: {
+                sx: {
+                  backgroundColor: "#000",
+                  opacity: 0.5,
+                },
+              },
+            }}
           >
-            <Box
+            <Container
               onClick={() => setOpen(false)}
               css={{
                 backgroundColor: "#000",
-                border: "0px",
-                borderRadius: "0px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
+                border: "0px solid black",
+                outline: "none",
               }}
             >
               <AspectRatio
                 sx={{
                   width: props.mobile ? "100%" : "75%",
                   maxWidth: "1400px",
+                  border: "0px solid black",
+                  outline: "none",
                 }}
               >
                 <ReactPlayer
                   css={{
-                    border: "0px",
-                    borderRadius: "0px",
+                    border: "0px solid black",
+                    outline: "none",
                   }}
                   width="100%"
                   height="100%"
@@ -162,13 +176,12 @@ export default function Project(props: AppProps) {
                   controls={true}
                 />
               </AspectRatio>
-              <Box
+              <Container
                 css={{
                   height: "100px",
-                  zIndex: -1,
                 }}
-              ></Box>
-            </Box>
+              ></Container>
+            </Container>
           </Modal>
         </Grid>
       </Fade>
