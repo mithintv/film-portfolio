@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
@@ -11,6 +12,21 @@ export default function ProjectList({
   projects: ProjectType[];
   mobile: boolean;
 }) {
+  const [loadCounter, setLoadCounter] = useState(0);
+  const [beginFade, setBeginFade] = useState(false);
+
+  useEffect(() => {
+    if (loadCounter === projects.length) {
+      setBeginFade(true);
+    }
+  }, [loadCounter, projects.length]);
+
+  const loadIncrement = () => {
+    setLoadCounter((prevState) => {
+      return prevState + 1;
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -28,6 +44,8 @@ export default function ProjectList({
         {projects.map((project, index) => {
           return (
             <Project
+              fade={beginFade}
+              onLoad={loadIncrement}
               key={project.id}
               mobile={mobile}
               project={project}

@@ -31,7 +31,7 @@ export default function Home({
       <Heading title="Reel" />
       <Box
         sx={{
-          padding: "0 2em",
+          padding: "0 0",
           width: "100%",
         }}
       >
@@ -42,6 +42,8 @@ export default function Home({
           columns={{ xs: 1, sm: 1, md: 1 }}
         >
           <Project
+            fade={true}
+            onLoad={() => {}}
             mobile={mobile}
             project={projects[0]}
             timeout={1}
