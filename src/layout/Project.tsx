@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 
 import Image from "next/image";
 
@@ -8,7 +8,7 @@ import { ProjectType } from "../lib/mysql";
 // MUI and Emotion
 import { Box, Container, Fade, Grid, Modal, Typography } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
-import { slideIn } from "../lib/animations";
+import { fadeIn, fadeOut, slideIn } from "../lib/animations";
 
 type AppProps = {
   project: ProjectType;
@@ -21,9 +21,19 @@ type AppProps = {
 
 export default function Project(props: AppProps) {
   const containerRef = React.useRef(null);
+  const [fadeOut, setFadeOut] = useState(false);
   const [open, setOpen] = useState<true | false>(false);
   const [details, setDetails] = useState<true | false>(false);
   const roles = props.project.role.split(",");
+
+  useEffect(() => {
+    if (fadeOut) {
+      setTimeout(() => {
+        setOpen(false);
+      }, 1000);
+    }
+    return () => {};
+  }, [fadeOut]);
 
   return (
     <>
@@ -70,6 +80,7 @@ export default function Project(props: AppProps) {
                 transition: "opacity 0.5s ease",
               }}
               onClick={() => {
+                setFadeOut(false);
                 setDetails(false);
                 setOpen(true);
               }}
@@ -124,10 +135,13 @@ export default function Project(props: AppProps) {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              zIndex: 2,
+              animation: fadeOut
+                ? `${fadeOut} 0.5s ease`
+                : `${fadeIn} 0.5s ease`,
+              opacity: fadeOut ? 0 : 1,
             }}
             open={open}
-            onClose={() => setOpen(false)}
+            onClose={() => setFadeOut(true)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             slotProps={{
@@ -140,9 +154,8 @@ export default function Project(props: AppProps) {
             }}
           >
             <Container
-              onClick={() => setOpen(false)}
+              onClick={() => setFadeOut(true)}
               css={{
-                backgroundColor: "#000",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -153,7 +166,7 @@ export default function Project(props: AppProps) {
             >
               <AspectRatio
                 sx={{
-                  width: props.mobile ? "100%" : "75%",
+                  width: "100%",
                   maxWidth: "1400px",
                 }}
               >
@@ -168,6 +181,8 @@ export default function Project(props: AppProps) {
               <Container
                 css={{
                   height: "100px",
+                  border: "0px solid black",
+                  outline: "none",
                 }}
               ></Container>
             </Container>
