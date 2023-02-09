@@ -124,12 +124,6 @@ export default function Project(props: AppProps) {
               flexDirection: "column",
               justifyContent: "center",
               zIndex: 2,
-              border: "0px solid black",
-              outline: "none",
-              "&.MuiModal:focus": {
-                border: "0px solid black",
-                outline: "none",
-              },
             }}
             open={open}
             onClose={() => setOpen(false)}
@@ -160,15 +154,9 @@ export default function Project(props: AppProps) {
                 sx={{
                   width: props.mobile ? "100%" : "75%",
                   maxWidth: "1400px",
-                  border: "0px solid black",
-                  outline: "none",
                 }}
               >
                 <ReactPlayer
-                  css={{
-                    border: "0px solid black",
-                    outline: "none",
-                  }}
                   width="100%"
                   height="100%"
                   url={props.project.url}
