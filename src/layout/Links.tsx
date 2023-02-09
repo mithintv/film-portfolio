@@ -28,19 +28,17 @@ export default function Links({ onClose, mobile, tablet }: AppProps) {
           "&::after": {
             content: '""',
             position: "absolute",
-            width: "100% - 0px",
             transform: "scaleX(0)",
             height: "1.1px",
             bottom: 0,
-            left: 8,
-            right: 8,
+            left: 7,
             backgroundColor: "#2E2E2E",
             transformOrigin: "bottom right",
             transition: "transform 0.25s ease-out",
           },
           "&:hover::after": {
             transform: "scaleX(1)",
-            right: 8,
+            right: 7,
             transformOrigin: "bottom left",
           },
         };

@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { IMaskInput } from "react-imask";
 import { ReactElement } from "react-imask/dist/mixin";
-import { keyframes } from "@emotion/react";
+import { fadeIn, fadeOut } from "../src/lib/animations";
 
 import emailjs from "@emailjs/browser";
 
@@ -347,22 +347,6 @@ export default function Contact({ mini }: { mini: boolean }) {
       }, 500);
     }
   };
-
-  const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }`;
-
-  const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }`;
 
   const sendAnother = () => {
     setFadeForm(false);
