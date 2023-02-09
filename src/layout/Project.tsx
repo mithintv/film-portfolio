@@ -101,6 +101,7 @@ export default function Project(props: AppProps) {
               })}
             </div>
             <Image
+              priority
               css={{
                 objectFit: "cover",
                 transform: details ? "scale(1.1)" : "scale(1.0)",
