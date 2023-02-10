@@ -111,6 +111,7 @@ export default function Project(props: AppProps) {
               sizes="(max-width: 768px) 90vw,
             (max-width: 1200px) 50vw,
             33vw"
+              priority
               fill
               src={`/images/${props.project.localThumbnail}`}
               alt={props.project.title}
