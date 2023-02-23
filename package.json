@@ -30,7 +30,7 @@
     "react-imask": "^6.4.3",
     "react-player": "^2.11.0",
     "react-type-animation": "^2.1.2",
-    "sequelize": "^6.28.0",
+    "sequelize": "^6.29.0",
     "sharp": "^0.31.3",
     "typescript": "4.9.3",
     "use-breakpoint": "^3.0.4"
