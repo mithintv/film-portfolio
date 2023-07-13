@@ -26,6 +26,7 @@
     "next": "13.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-ga": "^3.3.1",
     "react-icons": "^4.7.1",
     "react-imask": "^6.4.3",
     "react-player": "^2.11.0",
